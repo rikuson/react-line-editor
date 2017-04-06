@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
+import editorReducer from './reducers';
+import { changeText } from './actions'
 
-const initialState = {
-	text: null,
-};
+const store = createStore(editorReducer);
 
-//const store = createStore(, initialState);
-
-class Index extends React.Component{
+class App extends React.Component{
 	constructor(){
 		super();
 		this.state = {
@@ -18,6 +16,7 @@ class Index extends React.Component{
 		};
 	}
 	handleChange(e){
+		store.dispatch(changeText(e.target.value));
 		this.setState({ text: e.target.value });
 	}
 	handleBlur(){
@@ -29,7 +28,7 @@ class Index extends React.Component{
 		});
 	}
 	render(){
-		function style(visible){
+		function display(visible){
 			var obj = {};
 			obj.display = visible ? 'block' : 'none';
 			return obj;
@@ -37,13 +36,13 @@ class Index extends React.Component{
 		return (
 			<div>
 				<div
-					style={style(!this.state.editable)}
+					style={display(!this.state.editable)}
 					onClick={this.handleClick.bind(this)}
 				>
 					{this.state.text}
 				</div>
 				<input
-					style={style(this.state.editable)}
+					style={display(this.state.editable)}
 					value={this.state.text}
 					onBlur={this.handleBlur.bind(this)}
 					onChange={this.handleChange.bind(this)}
@@ -54,7 +53,18 @@ class Index extends React.Component{
 	}
 };
 
-ReactDOM.render(
-	<Index />,
-	document.getElementById('app')
-);
+const render = () => {
+	ReactDOM.render(
+		<Provider store={store}>
+			<App />
+		</Provider>,
+		document.getElementById('app')
+	);
+}
+
+store.subscribe(() => {
+	render();
+	console.log(store.getState());
+});
+
+render();
