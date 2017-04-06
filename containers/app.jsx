@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStore} from 'redux';
 import {connect} from 'react-redux';
-import { changeText, clickPreview, blurInput } from '../actions';
+import { changeText, toggleEdit } from '../actions';
 import Preview from '../components/preview.jsx';
 import Editor from '../components/editor.jsx';
 
@@ -48,14 +48,14 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onClick: () => {
 			var editable = true;
-			dispatch(clickPreview(editable));
-		},
-		onChange: (e) => {
-			dispatch(changeText(e.target.value));
+			dispatch(toggleEdit(editable));
 		},
 		onBlur: () => {
 			var editable = false;
-			dispatch(blurInput(editable));
+			dispatch(toggleEdit(editable));
+		},
+		onChange: (e) => {
+			dispatch(changeText(e.target.value));
 		},
 	}
 };

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { BLUR_INPUT, CLICK_PREVIEW, CHANGE_TEXT, INITIALIZE_EDITOR } from './actions';
+import { TOGGLE_EDIT, CHANGE_TEXT, INITIALIZE_EDITOR } from './actions';
 
 const initialState = {
 	editor: {
@@ -15,12 +15,7 @@ const editorReducer = (state = initialState.editor, action) => {
 				...state,
 				text: action.text,
 			};
-		case CLICK_PREVIEW: // EDIT_TOGGLE better?
-			return {
-				...state,
-				editable: action.editable
-			};
-		case BLUR_INPUT:
+		case TOGGLE_EDIT:
 			return {
 				...state,
 				editable: action.editable
