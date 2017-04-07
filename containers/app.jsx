@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import { changeText, toggleEdit } from '../actions';
 import Preview from '../components/preview.jsx';
 import Editor from '../components/editor.jsx';
+import Header from '../components/header.jsx';
+import CopyButtons from '../components/copy_buttons.jsx';
 
 class App extends React.Component{
 	display(visible){
@@ -12,18 +14,22 @@ class App extends React.Component{
 	render(){
 		return (
 			<div>
-				<Preview
-					onClick={this.props.onClick}
-					style={this.display(!this.props.editable)}
-				>
-					{this.props.text}
-				</Preview>
-				<Editor
-					onChange={this.props.onChange}
-					onBlur={this.props.onBlur}
-					style={this.display(this.props.editable)}
-					value={this.props.text}
-				/>
+				<Header />
+				<CopyButtons />
+				<div>
+					<Preview
+						onClick={this.props.onClick}
+						style={this.display(!this.props.editable)}
+					>
+						{this.props.text}
+					</Preview>
+					<Editor
+						onChange={this.props.onChange}
+						onBlur={this.props.onBlur}
+						style={this.display(this.props.editable)}
+						value={this.props.text}
+					/>
+				</div>
 			</div>
 		);
 	}

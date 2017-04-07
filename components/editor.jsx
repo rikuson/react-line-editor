@@ -8,7 +8,7 @@ class Editor extends React.Component{
 	}
 	render(){
 		return (
-			<input {...this.props} ref="input" />
+			<input className="line line-editor" {...this.props} ref="input" />
 		);
 	}
 };

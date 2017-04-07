@@ -3,7 +3,7 @@ import { TOGGLE_EDIT, CHANGE_TEXT, INITIALIZE_EDITOR } from './actions';
 
 const initialState = {
 	editor: {
-		text: 'test',
+		text: '',
 		editable: false,
 	},
 };

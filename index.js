@@ -1,15 +1,22 @@
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import editorReducer from './reducers';
 import App from './containers/app.jsx';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+injectTapEventPlugin();
 
 const store = createStore(editorReducer);
 
 ReactDOM.render(
-	<Provider store={store}>
-		<App />
-	</Provider>,
+	<MuiThemeProvider muiTheme={getMuiTheme()}>
+		<Provider store={store}>
+			<App />
+		</Provider>
+	</MuiThemeProvider>,
 	document.getElementById('app')
 );

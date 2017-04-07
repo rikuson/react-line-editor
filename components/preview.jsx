@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 class Preview extends React.Component{
 	render(){
 		return (
-			<div {...this.props} />
+			<div className="line line-preview" {...this.props} />
 		);
 	}
 };
