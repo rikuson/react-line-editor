@@ -39,12 +39,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		clickPreview: (id) => {
-			var editable = true;
-			dispatch(toggleEdit(id, editable));
+			dispatch(toggleEdit(id));
 		},
 		blurEditor: (id) => {
-			var editable = false;
-			dispatch(toggleEdit(id, editable));
+			dispatch(toggleEdit(id));
 		},
 		changeEditor: (id, e) => {
 			dispatch(changeText(id, e.target.value));

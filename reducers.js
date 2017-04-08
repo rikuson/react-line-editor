@@ -22,7 +22,7 @@ const line = (state, action) => {
 			if(state.id === action.id){
 				return {
 					...state,
-					editable: action.editable,
+					editable: !state.editable,
 				};
 			}else{
 				return state;

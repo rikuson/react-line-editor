@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../components/header.jsx';
-import Menu from '../components/menu.jsx';
+import Header from './header.jsx';
+import Menu from './menu.jsx';
 import TextField from '../containers/textfield.jsx';
 
 class App extends React.Component{

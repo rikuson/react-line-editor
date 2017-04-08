@@ -19,6 +19,6 @@ body{
 	border-radius: 0;
 }
 
-.raised-button{
-	margin: 24px 12px;
+.line *{
+	margin: 0;
 }

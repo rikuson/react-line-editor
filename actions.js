@@ -9,10 +9,9 @@ export const changeText = (id, text) => ({
 	text,
 });
 
-export const toggleEdit = (id, editable) => ({
+export const toggleEdit = (id) => ({
 	type: TOGGLE_EDIT,
 	id,
-	editable,
 });
 
 let nextLineId = 0;
