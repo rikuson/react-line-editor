@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from './header.jsx';
-import Menu from './menu.jsx';
 import TextField from '../containers/textfield.jsx';
 
 class App extends React.Component{
@@ -8,7 +7,6 @@ class App extends React.Component{
 		return (
 			<div>
 				<Header />
-				<Menu />
 				<TextField />
 			</div>
 		);

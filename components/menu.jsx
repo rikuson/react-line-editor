@@ -1,20 +1,21 @@
 import React from 'react';
 import Icon from 'material-ui/svg-icons/editor/insert-drive-file';
-import FlatButton from 'material-ui/FlatButton';
-import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
 
 class Menu extends React.Component{
 	render(){
 		return (
-			<Toolbar>
-				<ToolbarGroup>
-					<Icon />
-					<ToolbarSeparator />
-					<FlatButton label="Markdown" primary={true} />
-					<FlatButton label="HTML" primary={true} />
-					<FlatButton label="Text" primary={true} />
-				</ToolbarGroup>
-			</Toolbar>
+			<IconMenu
+				iconButtonElement={<IconButton><Icon /></IconButton>}
+				anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+				targetOrigin={{horizontal: 'left', vertical: 'top'}}
+			>
+				<MenuItem primaryText="Markdown" />
+				<MenuItem primaryText="HTML" />
+				<MenuItem primaryText="Text" />
+			</IconMenu>
 		);
 	}
 };
