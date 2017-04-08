@@ -1,7 +1,7 @@
 import React from 'react';
 import Line from '../components/line';
 import {connect} from 'react-redux';
-import { changeText, toggleEdit } from '../actions';
+import { pressKey, changeText, toggleEdit } from '../actions';
 
 const style = {
 	paddingTop: "72px",
@@ -15,6 +15,7 @@ class TextField extends React.Component{
 				onClick={() => this.props.clickPreview(l.id)}
 				onBlur={() => this.props.blurEditor(l.id)}
 				onChange={(e) => this.props.changeEditor(l.id, e)}
+				onKeyDown={(e) => this.props.pressKeyEditor(l.id, e)}
 			/>
 		);
 		return (
@@ -43,14 +44,33 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		clickPreview: (id) => {
-			dispatch(toggleEdit(id));
+			var editable = true;
+			dispatch(toggleEdit(id, editable));
 		},
 		blurEditor: (id) => {
-			dispatch(toggleEdit(id));
+			var editable = false;
+			dispatch(toggleEdit(id, editable));
 		},
 		changeEditor: (id, e) => {
 			dispatch(changeText(id, e.target.value));
 		},
+		pressKeyEditor: (id, e) => {
+			switch(e.key){
+				case 'ArrowUp':
+					if(id >= 1){
+						// default behavior disturbs movement of cursor
+						// need to blur manually
+						e.target.blur();
+						dispatch(toggleEdit(id - 1, true));
+					}
+					break;
+				case 'Enter':
+				case 'ArrowDown':
+					e.target.blur();
+					dispatch(toggleEdit(id + 1, true));
+					break;
+			}
+		}
 	}
 };
 

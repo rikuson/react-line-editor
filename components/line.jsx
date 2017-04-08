@@ -18,6 +18,7 @@ class Line extends React.Component{
 				<Editor
 					onChange={this.props.onChange}
 					onBlur={this.props.onBlur}
+					onKeyDown={this.props.onKeyDown}
 					style={this.display(this.props.editable)}
 					value={this.props.text}
 				/>
