@@ -1,2 +1,2 @@
 # vmde
-Visual Markdown Editor
+Lenear Markdown Editor

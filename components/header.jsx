@@ -5,7 +5,7 @@ class Header extends React.Component{
 	render(){
 		return (
 			<AppBar
-				title="VMDE"
+				title="LENEAR MARKDOWN EDITOR"
 				showMenuIconButton={false}
 				iconElementLeft=""
 			/>

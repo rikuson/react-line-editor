@@ -1,30 +1,54 @@
 import { combineReducers } from 'redux';
-import { TOGGLE_EDIT, CHANGE_TEXT, INITIALIZE_EDITOR } from './actions';
+import { ADD_LINE, TOGGLE_EDIT, CHANGE_TEXT } from './actions';
 
-const initialState = {
-	editor: {
-		text: '',
-		editable: false,
-	},
-};
-
-const editorReducer = (state = initialState.editor, action) => {
+const line = (state, action) => {
 	switch(action.type){
+		case ADD_LINE:
+			return {
+				id: action.id,
+				text: '',
+				editable: false,
+			}
 		case CHANGE_TEXT:
-			return {
-				...state,
-				text: action.text,
-			};
+			if(state.id === action.id){
+				return {
+					...state,
+					text: action.text,
+				};
+			}else{
+				return state;
+			}
 		case TOGGLE_EDIT:
-			return {
+			if(state.id === action.id){
+				return {
+					...state,
+					editable: action.editable,
+				};
+			}else{
+				return state;
+			}
+		default:
+			return state;
+	}
+}
+
+const lines = (state = [], action) => {
+	switch(action.type){
+		case ADD_LINE:
+			return [
 				...state,
-				editable: action.editable
-			};
-		case INITIALIZE_EDITOR:
-			return initialState.editor;
+				line(undefined, action),
+			];
+		case CHANGE_TEXT:
+		case TOGGLE_EDIT:
+			return state.map((l) =>
+				line(l, action)
+			);
 		default:
 			return state;
 	}
 };
 
-export default editorReducer;
+export default combineReducers({
+	lines,
+});

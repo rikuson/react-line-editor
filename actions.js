@@ -1,17 +1,22 @@
 export const CHANGE_TEXT = 'CHANGE_TEXT';
 export const TOGGLE_EDIT = 'TOGGLE_EDIT';
 export const INITIALIZE_EDITOR = 'INITIALIZE_EDITOR';
+export const ADD_LINE = 'ADD_LINE';
 
-export const changeText = text => ({
+export const changeText = (id, text) => ({
 	type: CHANGE_TEXT,
+	id,
 	text,
 });
 
-export const toggleEdit = editable => ({
+export const toggleEdit = (id, editable) => ({
 	type: TOGGLE_EDIT,
+	id,
 	editable,
 });
 
-export const initializeEditor = () => ({
-	type: INITIALIZE_EDITOR,
+let nextLineId = 0;
+export const addLine = () => ({
+	type: ADD_LINE,
+	id: nextLineId++,
 });
