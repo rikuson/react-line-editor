@@ -3,6 +3,10 @@ import Line from '../components/line';
 import {connect} from 'react-redux';
 import { changeText, toggleEdit } from '../actions';
 
+const style = {
+	paddingTop: "72px",
+};
+
 class TextField extends React.Component{
 	render(){
 		let lines = this.props.lines.map((l) =>
@@ -14,7 +18,7 @@ class TextField extends React.Component{
 			/>
 		);
 		return (
-			<div>{lines}</div>
+			<div style={style}>{lines}</div>
 		);
 	}
 };

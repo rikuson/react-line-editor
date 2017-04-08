@@ -1,13 +1,17 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
+import Menu from './menu';
+
+const style = { position: "fixed" };
 
 class Header extends React.Component{
 	render(){
 		return (
 			<AppBar
-				title="LENEAR MARKDOWN EDITOR"
+				title="LMDEditor"
 				showMenuIconButton={false}
-				iconElementLeft=""
+				iconElementRight={<Menu />}
+				style={style}
 			/>
 		);
 	}
