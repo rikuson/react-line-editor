@@ -8,7 +8,7 @@ class Menu extends React.Component{
 	render(){
 		return (
 			<IconMenu
-				iconButtonElement={<IconButton><Icon /></IconButton>}
+				iconButtonElement={<IconButton><Icon/></IconButton>}
 				anchorOrigin={{horizontal: 'left', vertical: 'top'}}
 				targetOrigin={{horizontal: 'left', vertical: 'top'}}
 			>

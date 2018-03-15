@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = {
-	mode: 'production',
+	mode: 'development',
 	entry: './index.js',
 	output: {
 		path: path.join(__dirname, '/docs'),
@@ -9,6 +9,10 @@ const config = {
 	},
 	resolve: {
 		extensions: ['*', '.js', '.jsx']
+	},
+	devServer: {
+		port: 8080,
+		contentBase: path.join(__dirname, '/docs'),
 	},
 	module: {
 		rules: [
@@ -32,3 +36,4 @@ const config = {
 };
 
 module.exports = config;
+

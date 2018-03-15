@@ -69,6 +69,13 @@ const mapDispatchToProps = (dispatch) => {
 					e.target.blur();
 					dispatch(toggleEdit(id + 1, true));
 					break;
+				case 'Backspace':
+					if (e.target.value === '') {
+						e.preventDefault();
+						e.target.blur();
+						dispatch(toggleEdit(id - 1, true));
+					}
+					break;
 			}
 		}
 	}
