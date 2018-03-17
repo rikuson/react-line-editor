@@ -1,15 +1,16 @@
 import React from 'react';
 
 class Editor extends React.Component{
-	componentDidUpdate(){
-		if(this.props.style.display === 'block'){
+	componentDidMount() {
+		this.refs.input.focus();
+	}
+	componentDidUpdate() {
+		if (this.props.style.display) {
 			this.refs.input.focus();
 		}
 	}
-	render(){
-		return (
-			<input className="line line-editor" {...this.props} ref="input" />
-		);
+	render() {
+		return <input className="line-editor" {...this.props} ref="input" />;
 	}
 };
 

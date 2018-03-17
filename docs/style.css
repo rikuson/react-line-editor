@@ -4,13 +4,15 @@ body{
 	margin: 0;
 	padding: 0;
 	width: 100%;
+	background: #EAEAEA;
 }
 
-.line{
+.line-preview,
+.line-editor {
 	font-family: inherit;
 	font-size: 1rem;
-	height: 1.5rem;
 	line-height: 1.5rem;
+	min-height: 1.5rem;
 	padding: .25rem;
 	width: 100%;
 	width: calc(100% - .5rem);
@@ -21,6 +23,45 @@ body{
 	outline: 0;
 }
 
-.line *{
+#text_field {
+	background: #FFF;
+	padding: 7px;
+	margin: 7px;
+}
+
+.line-preview *,
+.line-editor  * {
 	margin: 0;
 }
+
+.line-preview {
+	overflow: hidden;
+}
+
+.line-preview h1 {
+	border-bottom: 1px solid #AAA;
+	padding-bottom: 3px;
+	margin-bottom: -4px;
+}
+
+.line-preview blockquote {
+	border-left: 5px solid #CCC;
+	padding: .25rem .5rem;
+	margin: -.25rem 0;
+}
+
+.line-preview img {
+	float: left;
+	max-width: 100%;
+	margin-right: 14px;
+}
+
+.line-preview code {
+	background: #666;
+	color: #FFF;
+	padding: .25rem;
+	margin: -.25rem 0;
+	border-radius: 5px;
+	letter-spacing: 1px;
+}
+

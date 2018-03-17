@@ -2,13 +2,13 @@ import React from 'react';
 import Preview from '../components/preview.jsx';
 import Editor from '../components/editor.jsx';
 
-class Line extends React.Component{
-	display(visible){
+class Line extends React.Component {
+	display(visible) {
 		return { display: visible ? 'block' : 'none' };
 	}
-	render(){
+	render() {
 		return (
-			<div>
+			<div className="line">
 				<Preview
 					onClick={this.props.onClick}
 					style={this.display(!this.props.editable)}
@@ -28,12 +28,11 @@ class Line extends React.Component{
 };
 
 Line.propTypes = {
-	id: React.PropTypes.number.isRequired,
 	text: React.PropTypes.string,
 	editable: React.PropTypes.bool,
-	clickPreview: React.PropTypes.func.isRequired,
-	changeEditor: React.PropTypes.func.isRequired,
-	blurEditor: React.PropTypes.func.isRequired,
+	onClick: React.PropTypes.func.isRequired,
+	onChange: React.PropTypes.func.isRequired,
+	onBlur: React.PropTypes.func.isRequired,
 };
 
 module.exports = Line;

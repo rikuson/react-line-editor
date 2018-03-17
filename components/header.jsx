@@ -2,8 +2,6 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Menu from './menu';
 
-const style = { position: "fixed" };
-
 class Header extends React.Component{
 	render(){
 		return (
@@ -11,7 +9,6 @@ class Header extends React.Component{
 				title="LMDEditor"
 				showMenuIconButton={false}
 				iconElementRight={<Menu />}
-				style={style}
 			/>
 		);
 	}
