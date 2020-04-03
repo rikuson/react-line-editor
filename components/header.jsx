@@ -4,11 +4,12 @@ import Menu from './menu';
 
 class Header extends React.Component{
 	render(){
+    const menu = <Menu lines={this.props.lines} />
 		return (
 			<AppBar
 				title="LMDEditor"
 				showMenuIconButton={false}
-				iconElementRight={<Menu />}
+				iconElementRight={menu}
 			/>
 		);
 	}
