@@ -7,6 +7,7 @@ import {
 	pressKey,
 	changeValue,
 	appendValue,
+	pasteValue,
 	prependValue,
 	startEditing,
 	finishEditing,
@@ -21,6 +22,7 @@ class TextField extends React.Component{
 				onBlur={() => this.props.blurEditor(l.position)}
 				onChange={e => this.props.changeEditor(l.position, e)}
 				onKeyDown={e => this.props.pressKeyEditor(l.position, e)}
+				onPaste={e => this.props.pasteClipboard(l.position, e)}
 			/>
 		);
 		return <div id="text_field">{lines}</div>;
@@ -93,7 +95,15 @@ const mapDispatchToProps = (dispatch) => {
 					}
 					break;
 			}
-		}
+		},
+      pasteClipboard: (position, e) => {
+      e.preventDefault();
+      const { clipboardData } = e;
+      if (clipboardData !== null) {
+        const text = clipboardData.getData("text/plain");
+        dispatch(pasteValue(position, text));
+      }
+    }
 	}
 };
 

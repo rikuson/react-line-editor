@@ -4,6 +4,7 @@ import { Remarkable } from 'remarkable';
 import {
 	ADD_LINE,
 	CHANGE_VALUE,
+	PASTE_VALUE,
 	APPEND_VALUE,
 	PREPEND_VALUE,
 	START_EDITING,
@@ -38,26 +39,22 @@ const line = (state, action) => {
           ...state,
           ...formatText(action.value),
         };
-      } else {
-        return state;
       }
     case APPEND_VALUE:
       if (state.position === action.position) {
         return {
           ...state,
           ...formatText(state.markdown + action.value),
+          editable: true,
         };
-      } else {
-        return state;
       }
     case PREPEND_VALUE:
-      if(state.position === action.position){
+      if (state.position === action.position) {
         return {
           ...state,
           ...formatText(action.value + state.markdown),
+          editable: true,
         };
-      } else {
-        return state;
       }
     case START_EDITING:
       if (state.position === action.position) {
@@ -65,8 +62,6 @@ const line = (state, action) => {
           ...state,
           editable: true,
         };
-      } else {
-        return state;
       }
     case FINISH_EDITING:
       if (state.position === action.position) {
@@ -74,8 +69,6 @@ const line = (state, action) => {
           ...state,
           editable: false,
         };
-      } else {
-        return state;
       }
     default:
       return state;
@@ -100,6 +93,35 @@ const lines = (state = [], action) => {
 					if (l.position > action.position) l.position--;
 					return l;
 				});
+		case PASTE_VALUE:
+      const values = action.value.split("\n");
+			state = state.map(l => {
+				if (l.position > action.position) l.position += values.length - 2 || 0;
+				return l;
+			});
+      const lastPosition = state.reduce((a, b) => (a.position > b.position ? a : b).position);
+      return values.map((value, i) => {
+        const position = action.position + i;
+        if (i === 0) {
+          return line(state.find(s => s.position === position), {
+            ...action,
+            type: APPEND_VALUE,
+            value,
+          });
+        } else if (position === lastPosition) {
+          return line(state.find(s => s.position === position), {
+            ...action,
+            type: PREPEND_VALUE,
+            position,
+            value,
+          });
+        }
+        return line(null, {
+          type: ADD_LINE,
+          position,
+          value,
+        });
+      });
 		case CHANGE_VALUE:
 		case APPEND_VALUE:
 		case PREPEND_VALUE:

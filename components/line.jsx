@@ -19,6 +19,7 @@ class Line extends React.Component {
 					onChange={this.props.onChange}
 					onBlur={this.props.onBlur}
 					onKeyDown={this.props.onKeyDown}
+					onPaste={this.props.onPaste}
 					style={this.display(this.props.editable)}
 					value={this.props.markdown}
 				/>
