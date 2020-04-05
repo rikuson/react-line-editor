@@ -8,41 +8,40 @@ export const REMOVE_LINE = 'REMOVE_LINE';
 export const FINISH_EDITING = 'FINISH_EDITING';
 
 export const changeValue = (position, value) => ({
-	type: CHANGE_VALUE,
-	position,
-	value,
+  type: CHANGE_VALUE,
+  position,
+  value,
 });
 
 export const appendValue = (position, value) => ({
-	type: APPEND_VALUE,
-	position,
-	value,
+  type: APPEND_VALUE,
+  position,
+  value,
 });
 
 export const prependValue = (position, value) => ({
-	type: PREPEND_VALUE,
-	position,
-	value,
+  type: PREPEND_VALUE,
+  position,
+  value,
 });
 
 export const addLine = (position, value = '') => ({
-	type: ADD_LINE,
-	position,
-	value,
+  type: ADD_LINE,
+  position,
+  value,
 });
 
-export const startEditing = position => ({
-	type: START_EDITING,
-	position,
+export const startEditing = (position) => ({
+  type: START_EDITING,
+  position,
 });
 
-export const finishEditing = position => ({
-	type: FINISH_EDITING,
-	position,
+export const finishEditing = (position) => ({
+  type: FINISH_EDITING,
+  position,
 });
 
-export const removeLine = position => ({
-	type: REMOVE_LINE,
-	position,
+export const removeLine = (position) => ({
+  type: REMOVE_LINE,
+  position,
 });
-

@@ -1,0 +1,19 @@
+{
+  "extends": "airbnb",
+  "globals": {
+    "window": true
+  },
+  "rules": {
+    "default-case": "off",
+    "function-paren-newline": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "no-fallthrough": "off",
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
+    "react/destructuring-assignment": "off",
+    "react/no-string-refs": "off",
+    "react/no-did-update-set-state": "off",
+    "react/prefer-stateless-function": "off"
+  }
+}

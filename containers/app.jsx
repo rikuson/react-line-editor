@@ -1,36 +1,35 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import Header from '../components/header.jsx';
-import TextField from './textfield.jsx';
+import Header from '../components/header';
+import TextField from './textfield';
 
 class App extends React.Component {
-	render() {
-		return (
-			<div>
-				<Header lines={this.props.lines} />
-				<TextField />
-			</div>
-		);
-	}
-};
-
-App.propTypes = {
-	lines: React.PropTypes.arrayOf(React.PropTypes.shape({
-		key: React.PropTypes.string.isRequired,
-		html: React.PropTypes.string,
-		markdown: React.PropTypes.string,
-		text: React.PropTypes.string,
-		editable: React.PropTypes.bool.isRequired,
-		position: React.PropTypes.number.isRequired,
-	}).isRequired).isRequired,
+  render() {
+    return (
+      <div>
+        <Header lines={this.props.lines} />
+        <TextField />
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = (state) => {
-	return {
-		lines: state.lines,
-	};
+App.propTypes = {
+  lines: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    html: PropTypes.string,
+    markdown: PropTypes.string,
+    text: PropTypes.string,
+    editable: PropTypes.bool.isRequired,
+    position: PropTypes.number.isRequired,
+  }).isRequired).isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  lines: state.lines,
+});
+
 export default connect(
-	mapStateToProps,
+  mapStateToProps,
 )(App);

@@ -1,41 +1,40 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import Preview from '../components/preview.jsx';
-import Editor from '../components/editor.jsx';
+import Preview from './preview';
+import Editor from './editor';
 
 class Line extends React.Component {
-	display(visible) {
-		return { display: visible ? 'block' : 'none' };
-	}
-	render() {
-		return (
-			<div className="line">
-				<Preview
-					onClick={this.props.onClick}
-					style={this.display(!this.props.editable)}
-				>
-					{this.props.html}
-				</Preview>
-				<Editor
-					onChange={this.props.onChange}
-					onBlur={this.props.onBlur}
-					onKeyDown={this.props.onKeyDown}
-					onPaste={this.props.onPaste}
-					style={this.display(this.props.editable)}
-					value={this.props.markdown}
-				/>
-			</div>
-		);
-	}
-};
+  render() {
+    return (
+      <div className="line">
+        <Preview
+          onClick={this.props.onClick}
+          style={{ display: !this.props.editable ? 'block' : 'none' }}
+        >
+          {this.props.html}
+        </Preview>
+        <Editor
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          onKeyDown={this.props.onKeyDown}
+          onPaste={this.props.onPaste}
+          style={{ display: this.props.editable ? 'block' : 'none' }}
+          value={this.props.markdown}
+        />
+      </div>
+    );
+  }
+}
 
 Line.propTypes = {
-  html: React.PropTypes.string,
-  markdown: React.PropTypes.string,
-  text: React.PropTypes.string,
-  editable: React.PropTypes.bool,
-  onClick: React.PropTypes.func.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  onBlur: React.PropTypes.func.isRequired,
+  html: PropTypes.string.isRequired,
+  markdown: PropTypes.string.isRequired,
+  editable: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onKeyDown: PropTypes.func.isRequired,
+  onPaste: PropTypes.func.isRequired,
 };
 
 module.exports = Line;
