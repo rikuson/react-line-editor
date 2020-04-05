@@ -4,7 +4,6 @@ import { Remarkable } from 'remarkable';
 import {
 	ADD_LINE,
 	CHANGE_VALUE,
-	PASTE_VALUE,
 	APPEND_VALUE,
 	PREPEND_VALUE,
 	START_EDITING,
@@ -45,7 +44,6 @@ const line = (state, action) => {
         return {
           ...state,
           ...formatText(state.markdown + action.value),
-          editable: true,
         };
       }
     case PREPEND_VALUE:
@@ -53,7 +51,6 @@ const line = (state, action) => {
         return {
           ...state,
           ...formatText(action.value + state.markdown),
-          editable: true,
         };
       }
     case START_EDITING:
@@ -93,35 +90,6 @@ const lines = (state = [], action) => {
 					if (l.position > action.position) l.position--;
 					return l;
 				});
-		case PASTE_VALUE:
-      const values = action.value.split("\n");
-			state = state.map(l => {
-				if (l.position > action.position) l.position += values.length - 2 || 0;
-				return l;
-			});
-      const lastPosition = state.reduce((a, b) => (a.position > b.position ? a : b).position);
-      return values.map((value, i) => {
-        const position = action.position + i;
-        if (i === 0) {
-          return line(state.find(s => s.position === position), {
-            ...action,
-            type: APPEND_VALUE,
-            value,
-          });
-        } else if (position === lastPosition) {
-          return line(state.find(s => s.position === position), {
-            ...action,
-            type: PREPEND_VALUE,
-            position,
-            value,
-          });
-        }
-        return line(null, {
-          type: ADD_LINE,
-          position,
-          value,
-        });
-      });
 		case CHANGE_VALUE:
 		case APPEND_VALUE:
 		case PREPEND_VALUE:

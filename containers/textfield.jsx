@@ -7,7 +7,6 @@ import {
 	pressKey,
 	changeValue,
 	appendValue,
-	pasteValue,
 	prependValue,
 	startEditing,
 	finishEditing,
@@ -55,9 +54,9 @@ const mapDispatchToProps = (dispatch) => {
 		blurEditor: position => dispatch(finishEditing(position)),
 		changeEditor: (position, e) => dispatch(changeValue(position, e.target.value)),
 		pressKeyEditor: (position, e) => {
-			let caretPosition = e.target.selectionStart;
-			let beforeCaret = e.target.value.slice(0, caretPosition);
-			let afterCaret = e.target.value.slice(caretPosition);
+			const caretPosition = e.target.selectionStart;
+			const beforeCaret = e.target.value.slice(0, caretPosition);
+			const afterCaret = e.target.value.slice(caretPosition);
 			switch(e.key){
 				case 'ArrowUp':
 					// default behavior disturbs movement of cursor
@@ -96,12 +95,20 @@ const mapDispatchToProps = (dispatch) => {
 					break;
 			}
 		},
-      pasteClipboard: (position, e) => {
+    pasteClipboard: (position, e) => {
       e.preventDefault();
+			const caretPosition = e.target.selectionStart;
+			const beforeCaret = e.target.value.slice(0, caretPosition);
+			const afterCaret = e.target.value.slice(caretPosition);
       const { clipboardData } = e;
       if (clipboardData !== null) {
-        const text = clipboardData.getData("text/plain");
-        dispatch(pasteValue(position, text));
+        const data = clipboardData.getData("text/plain").split("\n");
+        let i = 0;
+        dispatch(changeValue(position, beforeCaret + data[i]));
+        while (++i < data.length - 1) {
+          dispatch(addLine(position + i, data[i]));
+        }
+        dispatch(addLine(position + i, data[i] + afterCaret));
       }
     }
 	}

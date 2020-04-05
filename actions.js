@@ -1,5 +1,4 @@
 export const CHANGE_VALUE = 'CHANGE_VALUE';
-export const PASTE_VALUE = 'PASTE_VALUE';
 export const INITIALIZE_EDITOR = 'INITIALIZE_EDITOR';
 export const ADD_LINE = 'ADD_LINE';
 export const APPEND_VALUE = 'APPEND_VALUE';
@@ -10,12 +9,6 @@ export const FINISH_EDITING = 'FINISH_EDITING';
 
 export const changeValue = (position, value) => ({
 	type: CHANGE_VALUE,
-	position,
-	value,
-});
-
-export const pasteValue = (position, value) => ({
-	type: PASTE_VALUE,
 	position,
 	value,
 });
