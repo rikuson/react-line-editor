@@ -5,9 +5,9 @@ import {
 	addLine,
 	removeLine,
 	pressKey,
-	changeText,
-	appendText,
-	prependText,
+	changeValue,
+	appendValue,
+	prependValue,
 	startEditing,
 	finishEditing,
 } from '../actions';
@@ -30,6 +30,8 @@ class TextField extends React.Component{
 TextField.propTypes = {
 	lines: React.PropTypes.arrayOf(React.PropTypes.shape({
 		key: React.PropTypes.string.isRequired,
+		html: React.PropTypes.string,
+		markdown: React.PropTypes.string,
 		text: React.PropTypes.string,
 		editable: React.PropTypes.bool.isRequired,
 		position: React.PropTypes.number.isRequired,
@@ -49,7 +51,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		clickPreview: position => dispatch(startEditing(position)),
 		blurEditor: position => dispatch(finishEditing(position)),
-		changeEditor: (position, e) => dispatch(changeText(position, e.target.value)),
+		changeEditor: (position, e) => dispatch(changeValue(position, e.target.value)),
 		pressKeyEditor: (position, e) => {
 			let caretPosition = e.target.selectionStart;
 			let beforeCaret = e.target.value.slice(0, caretPosition);
@@ -79,13 +81,13 @@ const mapDispatchToProps = (dispatch) => {
 					}
 					break;
 				case 'Enter':
-					dispatch(changeText(position, beforeCaret));
+					dispatch(changeValue(position, beforeCaret));
 					dispatch(addLine(position + 1, afterCaret));
 					break;
 				case 'Backspace':
 					if (position > 0 && caretPosition === 0) {
 						e.preventDefault();
-						dispatch(appendText(position - 1, afterCaret));
+						dispatch(appendValue(position - 1, afterCaret));
 						dispatch(startEditing(position - 1));
 						dispatch(removeLine(position));
 					}

@@ -17,6 +17,8 @@ class App extends React.Component {
 App.propTypes = {
 	lines: React.PropTypes.arrayOf(React.PropTypes.shape({
 		key: React.PropTypes.string.isRequired,
+		html: React.PropTypes.string,
+		markdown: React.PropTypes.string,
 		text: React.PropTypes.string,
 		editable: React.PropTypes.bool.isRequired,
 		position: React.PropTypes.number.isRequired,

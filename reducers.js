@@ -1,72 +1,85 @@
 import { combineReducers } from 'redux';
 import shortid from 'shortid';
+import { Remarkable } from 'remarkable';
 import {
 	ADD_LINE,
-	CHANGE_TEXT,
-	APPEND_TEXT,
-	PREPEND_TEXT,
+	CHANGE_VALUE,
+	APPEND_VALUE,
+	PREPEND_VALUE,
 	START_EDITING,
 	FINISH_EDITING,
 	REMOVE_LINE,
 } from './actions';
 
+const formatText = (markdown) => {
+  const md = new Remarkable();
+  const html = md.render(markdown).replace(/\n$/, '');
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return {
+    plain: tmp.textContent,
+    markdown,
+    html,
+  };
+};
+
 const line = (state, action) => {
-	switch(action.type){
-		case ADD_LINE:
-			return {
-				key: shortid.generate(),
-				text: action.text,
-				editable: true,
-				position: action.position,
-			};
-		case CHANGE_TEXT:
-			if (state.position === action.position) {
-				return {
-					...state,
-					text: action.text,
-				};
-			} else {
-				return state;
-			}
-		case APPEND_TEXT:
-			if (state.position === action.position) {
-				return {
-					...state,
-					text: state.text + action.text,
-				};
-			} else {
-				return state;
-			}
-		case PREPEND_TEXT:
-			if(state.position === action.position){
-				return {
-					...state,
-					text: action.text + state.text,
-				};
-			} else {
-				return state;
-			}
-		case START_EDITING:
-			if (state.position === action.position) {
-				return {
-					...state,
-					editable: true,
-				};
-			} else {
-				return state;
-			}
-		case FINISH_EDITING:
-			if (state.position === action.position) {
-				return {
-					...state,
-					editable: false,
-				};
-			} else {
-				return state;
-			}
-		default:
-			return state;
-	}
+  switch(action.type){
+    case ADD_LINE:
+      return {
+        ...formatText(action.value),
+        key: shortid.generate(),
+        editable: true,
+        position: action.position,
+      };
+    case CHANGE_VALUE:
+      if (state.position === action.position) {
+        return {
+          ...state,
+          ...formatText(action.value),
+        };
+      } else {
+        return state;
+      }
+    case APPEND_VALUE:
+      if (state.position === action.position) {
+        return {
+          ...state,
+          ...formatText(state.markdown + action.value),
+        };
+      } else {
+        return state;
+      }
+    case PREPEND_VALUE:
+      if(state.position === action.position){
+        return {
+          ...state,
+          ...formatText(action.value + state.markdown),
+        };
+      } else {
+        return state;
+      }
+    case START_EDITING:
+      if (state.position === action.position) {
+        return {
+          ...state,
+          editable: true,
+        };
+      } else {
+        return state;
+      }
+    case FINISH_EDITING:
+      if (state.position === action.position) {
+        return {
+          ...state,
+          editable: false,
+        };
+      } else {
+        return state;
+      }
+    default:
+      return state;
+  }
 }
 
 const lines = (state = [], action) => {
@@ -87,9 +100,9 @@ const lines = (state = [], action) => {
 					if (l.position > action.position) l.position--;
 					return l;
 				});
-		case CHANGE_TEXT:
-		case APPEND_TEXT:
-		case PREPEND_TEXT:
+		case CHANGE_VALUE:
+		case APPEND_VALUE:
+		case PREPEND_VALUE:
 		case START_EDITING:
 		case FINISH_EDITING:
 			return state.map(l => line(l, action));

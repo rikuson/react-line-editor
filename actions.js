@@ -1,34 +1,34 @@
-export const CHANGE_TEXT = 'CHANGE_TEXT';
+export const CHANGE_VALUE = 'CHANGE_VALUE';
 export const INITIALIZE_EDITOR = 'INITIALIZE_EDITOR';
 export const ADD_LINE = 'ADD_LINE';
-export const APPEND_TEXT = 'APPEND_TEXT';
-export const PREPEND_TEXT = 'PREPEND_TEXT';
+export const APPEND_VALUE = 'APPEND_VALUE';
+export const PREPEND_VALUE = 'PREPEND_VALUE';
 export const START_EDITING = 'START_EDITING';
 export const REMOVE_LINE = 'REMOVE_LINE';
 export const FINISH_EDITING = 'FINISH_EDITING';
 
-export const changeText = (position, text) => ({
-	type: CHANGE_TEXT,
+export const changeValue = (position, value) => ({
+	type: CHANGE_VALUE,
 	position,
-	text,
+	value,
 });
 
-export const appendText = (position, text) => ({
-	type: APPEND_TEXT,
+export const appendValue = (position, value) => ({
+	type: APPEND_VALUE,
 	position,
-	text,
+	value,
 });
 
-export const prependText = (position, text) => ({
-	type: PREPEND_TEXT,
+export const prependValue = (position, value) => ({
+	type: PREPEND_VALUE,
 	position,
-	text,
+	value,
 });
 
-export const addLine = (position, text = '') => ({
+export const addLine = (position, value = '') => ({
 	type: ADD_LINE,
 	position,
-	text,
+	value,
 });
 
 export const startEditing = position => ({

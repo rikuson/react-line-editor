@@ -1,12 +1,24 @@
 import React from 'react';
 import Icon from 'material-ui/svg-icons/editor/insert-drive-file';
 import { IconMenu, MenuItem, IconButton } from 'material-ui';
-import { Remarkable } from 'remarkable';
 
 class Menu extends React.Component{
   constructor() {
     super();
-    this.state = { copied: false, clipboard: '' };
+    this.state = { copying: false, copied: false, clipboard: '', timerId: '' };
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.copying) {
+      document.addEventListener("copy", this.copy.bind(this));
+      document.execCommand("copy");
+      if (this.state.timerId !== '') {
+        window.clearTimeout(this.state.timerId);
+      }
+      const timerId = window.setTimeout(() => {
+        this.setState({ copied: false });
+      }, 3000);
+      this.setState({ copying: false, copied: true, timerId });
+    }
   }
 	display(visible) {
 		return { display: visible ? 'inline-block' : 'none' };
@@ -17,30 +29,16 @@ class Menu extends React.Component{
     document.removeEventListener("copy", this.copy);
   }
   copyMarkdownData() {
-    const text = this.props.lines.map(l => l.text).join("\n");
-    this.setState({ copied: true, clipboard: text });
-    document.addEventListener("copy", this.copy.bind(this));
-    document.execCommand("copy");
-    setTimeout(() => this.setState({ copied: false }), 3000);
+    const text = this.props.lines.map(l => l.markdown).join("\n");
+    this.setState({ copying: true, clipboard: text });
   }
   copyHtmlData() {
-    const md = new Remarkable();
-    const text = md.render(this.props.lines.map(l => l.text).join("\n"));
-    this.setState({ copied: true, clipboard: text });
-    document.addEventListener("copy", this.copy.bind(this));
-    document.execCommand("copy");
-    setTimeout(() => this.setState({ copied: false }), 3000);
+    const text = this.props.lines.map(l => l.html).join("\n");
+    this.setState({ copying: true, clipboard: text });
   }
   copyTextData() {
-    // FIXME: It copies including needless lines.
-    const text = document.getElementById("text_field");;
-    const range = document.createRange();
-    range.selectNodeContents(element);
-    window.getSelection().addRange(range);
-    document.execCommand("copy");
-    window.getSelection().removeAllRanges();
-    this.setState({ copied: true, clipboard: text });
-    setTimeout(() => this.setState({ copied: false }), 3000);
+    const text = this.props.lines.map(l => l.plain).join("\n");
+    this.setState({ copying: true, clipboard: text });
   }
 	render() {
 		return (

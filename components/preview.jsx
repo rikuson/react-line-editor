@@ -1,11 +1,10 @@
 import React from 'react';
-import Markdown from 'react-remarkable';
 
 class Preview extends React.Component{
 	render(){
 		return (
 			<div className="line-preview" {...this.props}>
-				<Markdown>{this.props.children}</Markdown>
+        <span dangerouslySetInnerHTML={{ __html: this.props.children }} />
 			</div>
 		);
 	}

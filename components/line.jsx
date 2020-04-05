@@ -13,14 +13,14 @@ class Line extends React.Component {
 					onClick={this.props.onClick}
 					style={this.display(!this.props.editable)}
 				>
-					{this.props.text}
+					{this.props.html}
 				</Preview>
 				<Editor
 					onChange={this.props.onChange}
 					onBlur={this.props.onBlur}
 					onKeyDown={this.props.onKeyDown}
 					style={this.display(this.props.editable)}
-					value={this.props.text}
+					value={this.props.markdown}
 				/>
 			</div>
 		);
@@ -28,11 +28,13 @@ class Line extends React.Component {
 };
 
 Line.propTypes = {
-	text: React.PropTypes.string,
-	editable: React.PropTypes.bool,
-	onClick: React.PropTypes.func.isRequired,
-	onChange: React.PropTypes.func.isRequired,
-	onBlur: React.PropTypes.func.isRequired,
+  html: React.PropTypes.string,
+  markdown: React.PropTypes.string,
+  text: React.PropTypes.string,
+  editable: React.PropTypes.bool,
+  onClick: React.PropTypes.func.isRequired,
+  onChange: React.PropTypes.func.isRequired,
+  onBlur: React.PropTypes.func.isRequired,
 };
 
 module.exports = Line;
