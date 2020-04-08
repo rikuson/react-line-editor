@@ -1,15 +1,11 @@
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import reducer from './reducers';
 import App from './containers/app';
-
-injectTapEventPlugin();
 
 const middlewares = [];
 if (process.env.NODE_ENV === 'development') {
@@ -18,9 +14,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const store = createStoreWithMiddleware(reducer);
+const theme = createMuiTheme();
 
 ReactDOM.render(
-  <MuiThemeProvider muiTheme={getMuiTheme()}>
+  <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <App />
     </Provider>
