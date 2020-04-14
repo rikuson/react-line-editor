@@ -6,7 +6,7 @@ import {
   CHANGE_VALUE,
   APPEND_VALUE,
   PREPEND_VALUE,
-  START_EDITING,
+  ACTIVATE_EDITOR,
   FINISH_EDITING,
   REMOVE_LINE,
 } from './actions';
@@ -53,7 +53,7 @@ const line = (state, action) => {
           ...formatText(action.value + state.markdown),
         };
       }
-    case START_EDITING:
+    case ACTIVATE_EDITOR:
       if (state.position === action.position) {
         return {
           ...state,
@@ -100,7 +100,7 @@ const lines = (state = initialState, action) => {
     case CHANGE_VALUE:
     case APPEND_VALUE:
     case PREPEND_VALUE:
-    case START_EDITING:
+    case ACTIVATE_EDITOR:
     case FINISH_EDITING:
       return state.map((l) => line(l, action));
     default:

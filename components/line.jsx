@@ -15,6 +15,7 @@ class Line extends React.Component {
         </Preview>
         <Editor
           onChange={this.props.onChange}
+          onFocus={this.props.onFocus}
           onBlur={this.props.onBlur}
           onKeyDown={this.props.onKeyDown}
           onPaste={this.props.onPaste}
@@ -32,6 +33,7 @@ Line.propTypes = {
   editable: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func.isRequired,
   onPaste: PropTypes.func.isRequired,

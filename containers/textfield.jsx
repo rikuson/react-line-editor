@@ -7,6 +7,7 @@ import {
   removeLine,
   changeValue,
   appendValue,
+  activateEditor,
   startEditing,
   finishEditing,
 } from '../actions';
@@ -16,6 +17,7 @@ class TextField extends React.Component {
     const lines = this.props.lines.map((l) => (
       <Line
         onClick={() => this.props.clickPreview(l.position)}
+        onFocus={() => this.props.focusEditor(l.position)}
         onBlur={() => this.props.blurEditor(l.position)}
         onChange={(e) => this.props.changeEditor(l.position, e)}
         onKeyDown={(e) => this.props.pressKeyEditor(l.position, e)}
@@ -39,6 +41,7 @@ TextField.propTypes = {
     position: PropTypes.number.isRequired,
   }).isRequired).isRequired,
   clickPreview: PropTypes.func.isRequired,
+  focusEditor: PropTypes.func.isRequired,
   blurEditor: PropTypes.func.isRequired,
   changeEditor: PropTypes.func.isRequired,
   pressKeyEditor: PropTypes.func.isRequired,
@@ -50,7 +53,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  clickPreview: (position) => dispatch(startEditing(position)),
+  clickPreview: (position) => dispatch(activateEditor(position)),
+  focusEditor: (position) => dispatch(startEditing(position)),
   blurEditor: (position) => dispatch(finishEditing(position)),
   changeEditor: (position, e) => dispatch(changeValue(position, e.target.value)),
   pressKeyEditor: (position, e) => {
