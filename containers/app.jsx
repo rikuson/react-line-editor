@@ -8,7 +8,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header lines={this.props.lines} />
+        <Header lines={this.props.textfield.lines} />
         <TextField />
       </div>
     );
@@ -16,18 +16,21 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  lines: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    html: PropTypes.string,
-    markdown: PropTypes.string,
-    text: PropTypes.string,
-    editable: PropTypes.bool.isRequired,
+  textfield: PropTypes.shape({
     position: PropTypes.number.isRequired,
-  }).isRequired).isRequired,
+    lines: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      html: PropTypes.string,
+      markdown: PropTypes.string,
+      text: PropTypes.string,
+      editable: PropTypes.bool.isRequired,
+      position: PropTypes.number.isRequired,
+    }).isRequired).isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  lines: state.lines,
+  textfield: state.textfield,
 });
 
 export default connect(

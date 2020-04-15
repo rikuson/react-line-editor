@@ -7,6 +7,7 @@ import {
   APPEND_VALUE,
   PREPEND_VALUE,
   ACTIVATE_EDITOR,
+  START_EDITING,
   FINISH_EDITING,
   REMOVE_LINE,
 } from './actions';
@@ -23,13 +24,21 @@ const formatText = (markdown) => {
   };
 };
 
-const line = (state, action) => {
+const initialLine = {
+  key: shortid.generate(),
+  plain: '',
+  markdown: '',
+  html: '',
+  position: 0,
+  editable: true,
+};
+const line = (state = initialLine, action) => {
   switch (action.type) {
     case ADD_LINE:
       return {
+        ...initialLine,
         ...formatText(action.value),
         key: shortid.generate(),
-        editable: true,
         position: action.position,
       };
     case CHANGE_VALUE:
@@ -53,6 +62,7 @@ const line = (state, action) => {
           ...formatText(action.value + state.markdown),
         };
       }
+    case START_EDITING:
     case ACTIVATE_EDITOR:
       if (state.position === action.position) {
         return {
@@ -72,42 +82,53 @@ const line = (state, action) => {
   }
 };
 
-const initialState = [{
-  key: shortid.generate(),
-  plain: '',
-  markdown: '',
-  html: '',
+const initialTextfield = {
   position: 0,
-  editable: true,
-}];
-const lines = (state = initialState, action) => {
+  lines: [initialLine],
+};
+const textfield = (state = initialTextfield, action) => {
   switch (action.type) {
     case ADD_LINE:
-      return [
-        ...state.map((l) => {
-          if (l.position >= action.position) l.position++;
-          return l;
-        }),
-        line(null, action),
-      ].sort((a, b) => a.position - b.position);
+      return {
+        ...state,
+        lines: [
+          ...state.lines.map((l) => {
+            if (l.position >= action.position) l.position++;
+            return l;
+          }),
+          line(null, action),
+        ].sort((a, b) => a.position - b.position),
+      };
     case REMOVE_LINE:
-      return state
-        .filter((l) => l.position !== action.position)
-        .map((l) => {
-          if (l.position > action.position) l.position--;
-          return l;
-        });
+      return {
+        ...state,
+        lines: state.lines
+          .filter((l) => l.position !== action.position)
+          .map((l) => {
+            if (l.position > action.position) l.position--;
+            return l;
+          }),
+      };
+    case START_EDITING:
+      return {
+        ...state,
+        position: action.position,
+        lines: state.lines.map((l) => line(l, action)),
+      };
     case CHANGE_VALUE:
     case APPEND_VALUE:
     case PREPEND_VALUE:
     case ACTIVATE_EDITOR:
     case FINISH_EDITING:
-      return state.map((l) => line(l, action));
+      return {
+        ...state,
+        lines: state.lines.map((l) => line(l, action)),
+      };
     default:
       return state;
   }
 };
 
 export default combineReducers({
-  lines,
+  textfield,
 });

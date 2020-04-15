@@ -14,7 +14,7 @@ import {
 
 class TextField extends React.Component {
   render() {
-    const lines = this.props.lines.map((l) => (
+    const lines = this.props.textfield.lines.map((l) => (
       <Line
         onClick={() => this.props.clickPreview(l.position)}
         onFocus={() => this.props.focusEditor(l.position)}
@@ -33,13 +33,17 @@ class TextField extends React.Component {
 }
 
 TextField.propTypes = {
-  lines: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    html: PropTypes.string.isRequired,
-    markdown: PropTypes.string.isRequired,
-    editable: PropTypes.bool.isRequired,
+  textfield: PropTypes.shape({
     position: PropTypes.number.isRequired,
-  }).isRequired).isRequired,
+    lines: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      html: PropTypes.string,
+      markdown: PropTypes.string,
+      text: PropTypes.string,
+      editable: PropTypes.bool.isRequired,
+      position: PropTypes.number.isRequired,
+    }).isRequired).isRequired,
+  }).isRequired,
   clickPreview: PropTypes.func.isRequired,
   focusEditor: PropTypes.func.isRequired,
   blurEditor: PropTypes.func.isRequired,
@@ -49,7 +53,7 @@ TextField.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  lines: state.lines,
+  textfield: state.textfield,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -90,11 +94,12 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(addLine(position + 1, afterCaret));
         break;
       case 'Backspace':
+        // Delete new line
         if (position > 0 && caretPosition === 0) {
           e.preventDefault();
           dispatch(appendValue(position - 1, afterCaret));
-          dispatch(startEditing(position - 1));
           dispatch(removeLine(position));
+          dispatch(startEditing(position - 1));
         }
         break;
     }
