@@ -7,9 +7,9 @@ import {
   removeLine,
   changeValue,
   appendValue,
-  activateEditor,
+  activateLine,
   startEditing,
-  finishEditing,
+  disactivateLine,
 } from '../actions';
 
 class TextField extends React.Component {
@@ -18,7 +18,7 @@ class TextField extends React.Component {
       <Line
         onClick={() => this.props.clickPreview(l.position)}
         onFocus={() => this.props.focusEditor(l.position)}
-        onBlur={() => this.props.blurEditor(l.position)}
+        onBlur={(e) => this.props.blurEditor(l.position, e)}
         onChange={(e) => this.props.changeEditor(l.position, e)}
         onKeyDown={(e) => this.props.pressKeyEditor(l.position, e)}
         onPaste={(e) => this.props.pasteClipboard(l.position, e)}
@@ -57,9 +57,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  clickPreview: (position) => dispatch(activateEditor(position)),
+  clickPreview: (position) => dispatch(activateLine(position)),
   focusEditor: (position) => dispatch(startEditing(position)),
-  blurEditor: (position) => dispatch(finishEditing(position)),
+  blurEditor: (position, e) => dispatch(disactivateLine(position, e.target.value)),
   changeEditor: (position, e) => dispatch(changeValue(position, e.target.value)),
   pressKeyEditor: (position, e) => {
     const caretPosition = e.target.selectionStart;

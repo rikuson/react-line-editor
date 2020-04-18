@@ -3,10 +3,11 @@ export const INITIALIZE_EDITOR = 'INITIALIZE_EDITOR';
 export const ADD_LINE = 'ADD_LINE';
 export const APPEND_VALUE = 'APPEND_VALUE';
 export const PREPEND_VALUE = 'PREPEND_VALUE';
-export const ACTIVATE_EDITOR = 'ACTIVATE_EDITOR';
+export const ACTIVATE_LINE = 'ACTIVATE_LINE';
 export const START_EDITING = 'START_EDITING';
 export const REMOVE_LINE = 'REMOVE_LINE';
-export const FINISH_EDITING = 'FINISH_EDITING';
+export const DISACTIVATE_LINE = 'DISACTIVATE_LINE';
+export const INTERPRET_VALUE = 'INTERPRET_VALUE';
 
 export const changeValue = (position, value) => ({
   type: CHANGE_VALUE,
@@ -32,8 +33,8 @@ export const addLine = (position, value = '') => ({
   value,
 });
 
-export const activateEditor = (position) => ({
-  type: ACTIVATE_EDITOR,
+export const activateLine = (position) => ({
+  type: ACTIVATE_LINE,
   position,
 });
 
@@ -42,9 +43,10 @@ export const startEditing = (position) => ({
   position,
 });
 
-export const finishEditing = (position) => ({
-  type: FINISH_EDITING,
+export const disactivateLine = (position, value) => ({
+  type: DISACTIVATE_LINE,
   position,
+  value,
 });
 
 export const removeLine = (position) => ({

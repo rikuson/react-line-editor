@@ -1,28 +1,16 @@
 import { combineReducers } from 'redux';
 import shortid from 'shortid';
-import { Remarkable } from 'remarkable';
 import {
   ADD_LINE,
   CHANGE_VALUE,
   APPEND_VALUE,
   PREPEND_VALUE,
-  ACTIVATE_EDITOR,
+  ACTIVATE_LINE,
   START_EDITING,
-  FINISH_EDITING,
+  DISACTIVATE_LINE,
   REMOVE_LINE,
+  INTERPRET_VALUE,
 } from './actions';
-
-const formatText = (markdown) => {
-  const md = new Remarkable();
-  const html = md.render(markdown).replace(/\n$/, '');
-  const tmp = window.document.createElement('div');
-  tmp.innerHTML = html;
-  return {
-    plain: tmp.textContent,
-    markdown,
-    html,
-  };
-};
 
 const initialLine = {
   key: shortid.generate(),
@@ -37,7 +25,7 @@ const line = (state = initialLine, action) => {
     case ADD_LINE:
       return {
         ...initialLine,
-        ...formatText(action.value),
+        markdown: action.value,
         key: shortid.generate(),
         position: action.position,
       };
@@ -45,36 +33,45 @@ const line = (state = initialLine, action) => {
       if (state.position === action.position) {
         return {
           ...state,
-          ...formatText(action.value),
+          markdown: action.value,
         };
       }
     case APPEND_VALUE:
       if (state.position === action.position) {
         return {
           ...state,
-          ...formatText(state.markdown + action.value),
+          markdown: state.markdown + action.value,
         };
       }
     case PREPEND_VALUE:
       if (state.position === action.position) {
         return {
           ...state,
-          ...formatText(action.value + state.markdown),
+          markdown: action.value + state.markdown,
         };
       }
     case START_EDITING:
-    case ACTIVATE_EDITOR:
+    case ACTIVATE_LINE:
       if (state.position === action.position) {
         return {
           ...state,
           editable: true,
         };
       }
-    case FINISH_EDITING:
+    case DISACTIVATE_LINE:
       if (state.position === action.position) {
         return {
           ...state,
           editable: false,
+        };
+      }
+    case INTERPRET_VALUE:
+      if (state.position === action.position) {
+        const { plain, html } = action;
+        return {
+          ...state,
+          plain,
+          html,
         };
       }
     default:
@@ -118,8 +115,9 @@ const textfield = (state = initialTextfield, action) => {
     case CHANGE_VALUE:
     case APPEND_VALUE:
     case PREPEND_VALUE:
-    case ACTIVATE_EDITOR:
-    case FINISH_EDITING:
+    case ACTIVATE_LINE:
+    case DISACTIVATE_LINE:
+    case INTERPRET_VALUE:
       return {
         ...state,
         lines: state.lines.map((l) => line(l, action)),
