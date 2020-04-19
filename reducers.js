@@ -6,7 +6,6 @@ import {
   APPEND_VALUE,
   PREPEND_VALUE,
   ACTIVATE_LINE,
-  START_EDITING,
   DISACTIVATE_LINE,
   REMOVE_LINE,
   INTERPRET_VALUE,
@@ -15,58 +14,57 @@ import {
 const initialLine = {
   key: shortid.generate(),
   plain: '',
-  markdown: '',
+  value: '',
   html: '',
-  position: 0,
-  editable: true,
+  linenumber: 0,
+  active: true,
 };
 const line = (state = initialLine, action) => {
   switch (action.type) {
     case ADD_LINE:
       return {
-        ...initialLine,
-        markdown: action.value,
+        ...state,
+        value: action.event.target.value,
         key: shortid.generate(),
-        position: action.position,
+        linenumber: action.linenumber,
       };
     case CHANGE_VALUE:
-      if (state.position === action.position) {
+      if (state.linenumber === action.linenumber) {
         return {
           ...state,
-          markdown: action.value,
+          value: action.value,
         };
       }
     case APPEND_VALUE:
-      if (state.position === action.position) {
+      if (state.linenumber === action.linenumber) {
         return {
           ...state,
-          markdown: state.markdown + action.value,
+          value: state.value + action.value,
         };
       }
     case PREPEND_VALUE:
-      if (state.position === action.position) {
+      if (state.linenumber === action.linenumber) {
         return {
           ...state,
-          markdown: action.value + state.markdown,
+          value: action.value + state.value,
         };
       }
-    case START_EDITING:
     case ACTIVATE_LINE:
-      if (state.position === action.position) {
+      if (state.linenumber === action.linenumber) {
         return {
           ...state,
-          editable: true,
+          active: true,
         };
       }
     case DISACTIVATE_LINE:
-      if (state.position === action.position) {
+      if (state.linenumber === action.linenumber) {
         return {
           ...state,
-          editable: false,
+          active: false,
         };
       }
     case INTERPRET_VALUE:
-      if (state.position === action.position) {
+      if (state.linenumber === action.linenumber) {
         const { plain, html } = action;
         return {
           ...state,
@@ -79,43 +77,43 @@ const line = (state = initialLine, action) => {
   }
 };
 
-const initialTextfield = {
-  position: 0,
+const initialLineEditor = {
+  linenumber: 0,
+  caret: 0,
   lines: [initialLine],
 };
-const textfield = (state = initialTextfield, action) => {
+const lineEditor = (state = initialLineEditor, action) => {
   switch (action.type) {
     case ADD_LINE:
       return {
         ...state,
         lines: [
           ...state.lines.map((l) => {
-            if (l.position >= action.position) l.position++;
+            if (l.linenumber >= action.linenumber) l.linenumber++;
             return l;
           }),
-          line(null, action),
-        ].sort((a, b) => a.position - b.position),
+          line(initialLine, action),
+        ].sort((a, b) => a.linenumber - b.linenumber),
       };
     case REMOVE_LINE:
       return {
         ...state,
         lines: state.lines
-          .filter((l) => l.position !== action.position)
+          .filter((l) => l.linenumber !== action.linenumber)
           .map((l) => {
-            if (l.position > action.position) l.position--;
+            if (l.linenumber > action.linenumber) l.linenumber--;
             return l;
           }),
       };
-    case START_EDITING:
+    case ACTIVATE_LINE:
       return {
         ...state,
-        position: action.position,
+        linenumber: action.linenumber,
         lines: state.lines.map((l) => line(l, action)),
       };
     case CHANGE_VALUE:
     case APPEND_VALUE:
     case PREPEND_VALUE:
-    case ACTIVATE_LINE:
     case DISACTIVATE_LINE:
     case INTERPRET_VALUE:
       return {
@@ -128,5 +126,5 @@ const textfield = (state = initialTextfield, action) => {
 };
 
 export default combineReducers({
-  textfield,
+  lineEditor,
 });

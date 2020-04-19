@@ -1,55 +1,65 @@
 export const CHANGE_VALUE = 'CHANGE_VALUE';
-export const INITIALIZE_EDITOR = 'INITIALIZE_EDITOR';
 export const ADD_LINE = 'ADD_LINE';
 export const APPEND_VALUE = 'APPEND_VALUE';
 export const PREPEND_VALUE = 'PREPEND_VALUE';
 export const ACTIVATE_LINE = 'ACTIVATE_LINE';
-export const START_EDITING = 'START_EDITING';
 export const REMOVE_LINE = 'REMOVE_LINE';
 export const DISACTIVATE_LINE = 'DISACTIVATE_LINE';
 export const INTERPRET_VALUE = 'INTERPRET_VALUE';
+export const KEY_UP = 'KEY_UP';
+export const KEY_DOWN = 'KEY_DOWN';
 
-export const changeValue = (position, value) => ({
+export const changeValue = (linenumber, event, value = '') => ({
   type: CHANGE_VALUE,
-  position,
+  linenumber,
+  event,
   value,
 });
 
-export const appendValue = (position, value) => ({
+export const appendValue = (linenumber, event, value = '') => ({
   type: APPEND_VALUE,
-  position,
+  linenumber,
+  event,
   value,
 });
 
-export const prependValue = (position, value) => ({
+export const prependValue = (linenumber, event, value = '') => ({
   type: PREPEND_VALUE,
-  position,
+  linenumber,
+  event,
   value,
 });
 
-export const addLine = (position, value = '') => ({
+export const addLine = (linenumber, event) => ({
   type: ADD_LINE,
-  position,
-  value,
+  linenumber,
+  event,
 });
 
-export const activateLine = (position) => ({
+export const activateLine = (linenumber, event) => ({
   type: ACTIVATE_LINE,
-  position,
+  linenumber,
+  event,
 });
 
-export const startEditing = (position) => ({
-  type: START_EDITING,
-  position,
-});
-
-export const disactivateLine = (position, value) => ({
+export const disactivateLine = (linenumber, event) => ({
   type: DISACTIVATE_LINE,
-  position,
-  value,
+  linenumber,
+  event,
 });
 
-export const removeLine = (position) => ({
+export const removeLine = (linenumber, event) => ({
   type: REMOVE_LINE,
-  position,
+  linenumber,
+  event,
+});
+
+export const storeKey = (key) => ({
+  type: KEY_DOWN,
+  key,
+});
+
+export const releaseKey = (key) => ({
+  type: KEY_UP,
+  key,
 });

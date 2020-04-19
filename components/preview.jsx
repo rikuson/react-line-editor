@@ -5,9 +5,13 @@ class Preview extends React.Component {
   render() {
     const { onClick, style, children } = this.props;
     return (
-      <div className="line-preview" role="article" onClick={onClick} style={style}>
-        <span dangerouslySetInnerHTML={{ __html: children }} />
-      </div>
+      <div
+        className="line-preview"
+        role="article"
+        onClick={onClick}
+        style={style}
+        dangerouslySetInnerHTML={{ __html: children }}
+      />
     );
   }
 }

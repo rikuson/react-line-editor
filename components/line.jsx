@@ -9,18 +9,19 @@ class Line extends React.Component {
       <div className="line">
         <Preview
           onClick={this.props.onClick}
-          style={{ display: !this.props.editable ? 'block' : 'none' }}
+          style={{ display: !this.props.active ? 'block' : 'none' }}
         >
-          {this.props.html}
+          {this.props.children}
         </Preview>
         <Editor
           onChange={this.props.onChange}
           onFocus={this.props.onFocus}
           onBlur={this.props.onBlur}
           onKeyDown={this.props.onKeyDown}
+          onKeyUp={this.props.onKeyUp}
           onPaste={this.props.onPaste}
-          style={{ display: this.props.editable ? 'block' : 'none' }}
-          value={this.props.markdown}
+          style={{ display: this.props.active ? 'block' : 'none' }}
+          value={this.props.value}
         />
       </div>
     );
@@ -28,14 +29,15 @@ class Line extends React.Component {
 }
 
 Line.propTypes = {
-  html: PropTypes.string.isRequired,
-  markdown: PropTypes.string.isRequired,
-  editable: PropTypes.bool.isRequired,
+  children: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func.isRequired,
+  onKeyUp: PropTypes.func.isRequired,
   onPaste: PropTypes.func.isRequired,
 };
 

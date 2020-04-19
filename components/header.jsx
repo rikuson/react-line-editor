@@ -44,12 +44,12 @@ class Header extends React.Component {
   }
 
   copyMarkdownData() {
-    const text = this.props.lines.map((l) => l.markdown).join('\n');
+    const text = this.props.lines.map((l) => l.value).join('\n');
     this.setState({
       menuOpen: false,
       copying: true,
       clipboard: text,
-      textType: 'markdown',
+      textType: 'value',
     });
   }
 
@@ -100,7 +100,7 @@ class Header extends React.Component {
             }}
             open={this.state.menuOpen}
           >
-            <Tooltip title="Copied!" open={this.state.copied && this.state.textType === 'markdown'}>
+            <Tooltip title="Copied!" open={this.state.copied && this.state.textType === 'value'}>
               <MenuItem onClick={() => this.copyMarkdownData()}>Markdown</MenuItem>
             </Tooltip>
             <Tooltip title="Copied!" open={this.state.copied && this.state.textType === 'html'}>
@@ -120,10 +120,10 @@ Header.propTypes = {
   lines: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
     html: PropTypes.string,
-    markdown: PropTypes.string,
+    value: PropTypes.string,
     text: PropTypes.string,
-    editable: PropTypes.bool.isRequired,
-    position: PropTypes.number.isRequired,
+    active: PropTypes.bool.isRequired,
+    linenumber: PropTypes.number.isRequired,
   }).isRequired).isRequired,
 };
 

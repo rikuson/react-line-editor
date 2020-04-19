@@ -18,11 +18,12 @@ class Editor extends React.Component {
       onFocus,
       onBlur,
       onKeyDown,
+      onKeyUp,
       onPaste,
       style,
       value,
     } = this.props;
-    return <input className="line-editor" onChange={onChange} onFocus={onFocus} onBlur={onBlur} onKeyDown={onKeyDown} onPaste={onPaste} style={style} value={value} ref="input" />;
+    return <input className="line-editor" onChange={onChange} onFocus={onFocus} onBlur={onBlur} onKeyDown={onKeyDown} onKeyUp={onKeyUp} onPaste={onPaste} style={style} value={value} ref="input" />;
   }
 }
 
@@ -34,6 +35,7 @@ Editor.propTypes = {
   onFocus: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   onKeyDown: PropTypes.func.isRequired,
+  onKeyUp: PropTypes.func.isRequired,
   onPaste: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
 };
