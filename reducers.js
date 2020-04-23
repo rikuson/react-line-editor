@@ -1,15 +1,5 @@
 import { combineReducers } from 'redux';
 import shortid from 'shortid';
-import {
-  ADD_LINE,
-  CHANGE_VALUE,
-  APPEND_VALUE,
-  PREPEND_VALUE,
-  ACTIVATE_LINE,
-  DISACTIVATE_LINE,
-  REMOVE_LINE,
-  INTERPRET_VALUE,
-} from './actions';
 
 const initialLine = {
   key: shortid.generate(),
@@ -21,49 +11,49 @@ const initialLine = {
 };
 const line = (state = initialLine, action) => {
   switch (action.type) {
-    case ADD_LINE:
+    case 'ADD_LINE':
       return {
         ...state,
-        value: action.event.target.value,
+        value: action.value,
         key: shortid.generate(),
         linenumber: action.linenumber,
       };
-    case CHANGE_VALUE:
+    case 'CHANGE_VALUE':
       if (state.linenumber === action.linenumber) {
         return {
           ...state,
           value: action.value,
         };
       }
-    case APPEND_VALUE:
+    case 'APPEND_VALUE':
       if (state.linenumber === action.linenumber) {
         return {
           ...state,
           value: state.value + action.value,
         };
       }
-    case PREPEND_VALUE:
+    case 'PREPEND_VALUE':
       if (state.linenumber === action.linenumber) {
         return {
           ...state,
           value: action.value + state.value,
         };
       }
-    case ACTIVATE_LINE:
+    case 'ACTIVATE_LINE':
       if (state.linenumber === action.linenumber) {
         return {
           ...state,
           active: true,
         };
       }
-    case DISACTIVATE_LINE:
+    case 'DISACTIVATE_LINE':
       if (state.linenumber === action.linenumber) {
         return {
           ...state,
           active: false,
         };
       }
-    case INTERPRET_VALUE:
+    case 'INTERPRET_VALUE':
       if (state.linenumber === action.linenumber) {
         const { plain, html } = action;
         return {
@@ -84,7 +74,7 @@ const initialLineEditor = {
 };
 const lineEditor = (state = initialLineEditor, action) => {
   switch (action.type) {
-    case ADD_LINE:
+    case 'ADD_LINE':
       return {
         ...state,
         lines: [
@@ -95,7 +85,7 @@ const lineEditor = (state = initialLineEditor, action) => {
           line(initialLine, action),
         ].sort((a, b) => a.linenumber - b.linenumber),
       };
-    case REMOVE_LINE:
+    case 'REMOVE_LINE':
       return {
         ...state,
         lines: state.lines
@@ -105,17 +95,18 @@ const lineEditor = (state = initialLineEditor, action) => {
             return l;
           }),
       };
-    case ACTIVATE_LINE:
+    case 'BIND_POSITION':
       return {
         ...state,
         linenumber: action.linenumber,
-        lines: state.lines.map((l) => line(l, action)),
+        caret: action.caret,
       };
-    case CHANGE_VALUE:
-    case APPEND_VALUE:
-    case PREPEND_VALUE:
-    case DISACTIVATE_LINE:
-    case INTERPRET_VALUE:
+    case 'ACTIVATE_LINE':
+    case 'CHANGE_VALUE':
+    case 'APPEND_VALUE':
+    case 'PREPEND_VALUE':
+    case 'DISACTIVATE_LINE':
+    case 'INTERPRET_VALUE':
       return {
         ...state,
         lines: state.lines.map((l) => line(l, action)),

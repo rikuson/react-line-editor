@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import markdownInterpreter from './remarkable-interpreter';
+import keybinder from './keybinder';
 import reducer from './reducers';
 import App from './containers/app';
 
@@ -14,6 +15,7 @@ if (process.env.NODE_ENV === 'development') {
   middlewares.push(logger);
 }
 middlewares.push(markdownInterpreter);
+middlewares.push(keybinder);
 
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const store = createStoreWithMiddleware(reducer);

@@ -17,11 +17,10 @@ class Line extends React.Component {
           onChange={this.props.onChange}
           onFocus={this.props.onFocus}
           onBlur={this.props.onBlur}
-          onKeyDown={this.props.onKeyDown}
-          onKeyUp={this.props.onKeyUp}
           onPaste={this.props.onPaste}
           style={{ display: this.props.active ? 'block' : 'none' }}
           value={this.props.value}
+          caret={this.props.caret}
         />
       </div>
     );
@@ -31,13 +30,12 @@ class Line extends React.Component {
 Line.propTypes = {
   children: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
+  caret: PropTypes.number.isRequired,
   active: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func.isRequired,
-  onKeyUp: PropTypes.func.isRequired,
   onPaste: PropTypes.func.isRequired,
 };
 
