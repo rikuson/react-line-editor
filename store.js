@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import reducer from './reducers';
-import markdownInterpreter from './remarkable-interpreter';
+import markdownInterpreter from './markdown-interpreter';
 import keybinder from './keybinder';
 
 const middlewares = [];

@@ -3,10 +3,15 @@ import React from 'react';
 
 class Preview extends React.Component {
   render() {
-    const { onClick, style, children } = this.props;
+    const {
+      onClick,
+      style,
+      children,
+      className,
+    } = this.props;
     return (
       <div
-        className="line-preview"
+        className={['line-preview', className].join(' ')}
         role="article"
         onClick={onClick}
         style={style}
@@ -22,6 +27,7 @@ Preview.propTypes = {
   style: PropTypes.shape({
     display: PropTypes.isRequired,
   }).isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 module.exports = Preview;

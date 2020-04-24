@@ -1,16 +1,22 @@
-import { Remarkable } from 'remarkable';
+import MarkdownIt from 'markdown-it';
 
 export default (store) => (next) => (action) => {
   if (action.type === 'BLUR_LINE') {
     const state = store.getState();
     const { value } = state.lineEditor.lines[action.linenumber];
-    const md = new Remarkable();
+    const md = new MarkdownIt();
+    const className = md.parse(value)
+      .filter((token) => token.type !== 'inline')
+      .map((token) => token.tag)
+      .filter((tag, i, self) => self.indexOf(tag) === i)
+      .join(' ');
     const html = md.render(value).replace(/\n$/, '');
     store.dispatch({
-      type: 'INTERPRET_VALUE',
+      type: 'RENDER_HTML',
       linenumber: action.linenumber,
       value,
       html,
+      className,
     });
   }
   return next(action);

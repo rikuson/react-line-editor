@@ -10,6 +10,7 @@ class Line extends React.Component {
         <Preview
           onClick={this.props.onClick}
           style={{ display: !this.props.active ? 'block' : 'none' }}
+          className={this.props.className}
           active={this.props.active}
         >
           {this.props.children}
@@ -32,6 +33,7 @@ class Line extends React.Component {
 Line.propTypes = {
   children: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
   caret: PropTypes.number.isRequired,
   active: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,

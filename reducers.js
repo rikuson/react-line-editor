@@ -5,6 +5,7 @@ const initialLine = {
   key: shortid.generate(),
   value: '',
   html: '',
+  className: '',
   linenumber: 0,
   active: false,
 };
@@ -67,12 +68,13 @@ const line = (state = initialLine, action) => {
         };
       }
       return state;
-    case 'INTERPRET_VALUE':
+    case 'RENDER_HTML':
       if (state.linenumber === action.linenumber) {
-        const { html } = action;
+        const { html, className } = action;
         return {
           ...state,
           html,
+          className,
         };
       }
       return state;
@@ -130,7 +132,7 @@ const lineEditor = (state = initialLineEditor, action) => {
     case 'APPEND_VALUE':
     case 'PREPEND_VALUE':
     case 'DISACTIVATE_LINE':
-    case 'INTERPRET_VALUE':
+    case 'RENDER_HTML':
       return {
         ...state,
         lines: state.lines.map((l) => line(l, action)),

@@ -37,6 +37,7 @@ class LineEditor extends React.Component {
           value={l.value}
           active={l.active}
           caret={this.props.lineEditor.caret}
+          className={l.className}
         >
           {l.html}
         </Line>
@@ -54,6 +55,7 @@ LineEditor.propTypes = {
     lines: PropTypes.arrayOf(PropTypes.shape({
       key: PropTypes.string.isRequired,
       html: PropTypes.string,
+      className: PropTypes.string,
       value: PropTypes.string,
       text: PropTypes.string,
       active: PropTypes.bool.isRequired,
