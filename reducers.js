@@ -3,7 +3,6 @@ import shortid from 'shortid';
 
 const initialLine = {
   key: shortid.generate(),
-  plain: '',
   value: '',
   html: '',
   linenumber: 0,
@@ -70,10 +69,9 @@ const line = (state = initialLine, action) => {
       return state;
     case 'INTERPRET_VALUE':
       if (state.linenumber === action.linenumber) {
-        const { plain, html } = action;
+        const { html } = action;
         return {
           ...state,
-          plain,
           html,
         };
       }

@@ -63,16 +63,6 @@ class Header extends React.Component {
     });
   }
 
-  copyTextData() {
-    const text = this.props.lines.map((l) => l.plain).join('\n');
-    this.setState({
-      menuOpen: false,
-      copying: true,
-      clipboard: text,
-      textType: 'plain',
-    });
-  }
-
   render() {
     return (
       <AppBar position="static">
@@ -105,9 +95,6 @@ class Header extends React.Component {
             </Tooltip>
             <Tooltip title="Copied!" open={this.state.copied && this.state.textType === 'html'}>
               <MenuItem onClick={() => this.copyHtmlData()}>Html</MenuItem>
-            </Tooltip>
-            <Tooltip title="Copied!" open={this.state.copied && this.state.textType === 'plain'}>
-              <MenuItem onClick={() => this.copyTextData()}>Text</MenuItem>
             </Tooltip>
           </Menu>
         </Toolbar>
