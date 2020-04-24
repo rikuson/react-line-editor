@@ -39,7 +39,7 @@ class LineEditor extends React.Component {
           caret={this.props.lineEditor.caret}
           className={l.className}
         >
-          {l.html}
+          {l.children || <div />}
         </Line>
       </Shortcuts>
     ));
@@ -54,7 +54,7 @@ LineEditor.propTypes = {
     activeKeys: PropTypes.arrayOf(PropTypes.string),
     lines: PropTypes.arrayOf(PropTypes.shape({
       key: PropTypes.string.isRequired,
-      html: PropTypes.string,
+      children: PropTypes.element,
       className: PropTypes.string,
       value: PropTypes.string,
       text: PropTypes.string,

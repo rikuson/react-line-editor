@@ -31,7 +31,7 @@ class Line extends React.Component {
 }
 
 Line.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
   value: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   caret: PropTypes.number.isRequired,

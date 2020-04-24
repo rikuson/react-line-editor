@@ -15,14 +15,15 @@ class Preview extends React.Component {
         role="article"
         onClick={onClick}
         style={style}
-        dangerouslySetInnerHTML={{ __html: children }}
-      />
+      >
+        {children}
+      </div>
     );
   }
 }
 
 Preview.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
   onClick: PropTypes.func.isRequired,
   style: PropTypes.shape({
     display: PropTypes.isRequired,

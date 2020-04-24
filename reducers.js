@@ -70,11 +70,12 @@ const line = (state = initialLine, action) => {
       return state;
     case 'RENDER_HTML':
       if (state.linenumber === action.linenumber) {
-        const { html, className } = action;
+        const { html, className, children } = action;
         return {
           ...state,
           html,
           className,
+          children,
         };
       }
       return state;

@@ -54,7 +54,7 @@ class Header extends React.Component {
   }
 
   copyHtmlData() {
-    const text = this.props.lines.map((l) => l.html).join('\n');
+    const text = this.props.lines.map((l) => l.children.props.dangerouslySetInnerHTML.__html).join('\n');
     this.setState({
       menuOpen: false,
       copying: true,
@@ -106,7 +106,7 @@ class Header extends React.Component {
 Header.propTypes = {
   lines: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
-    html: PropTypes.string,
+    children: PropTypes.element,
     value: PropTypes.string,
     text: PropTypes.string,
     active: PropTypes.bool.isRequired,

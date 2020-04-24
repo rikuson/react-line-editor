@@ -1,3 +1,4 @@
+import React from 'react';
 import MarkdownIt from 'markdown-it';
 
 export default (store) => (next) => (action) => {
@@ -10,13 +11,15 @@ export default (store) => (next) => (action) => {
       .map((token) => token.tag)
       .filter((tag, i, self) => self.indexOf(tag) === i)
       .join(' ');
+    // TODO: createElementFromToken
     const html = md.render(value).replace(/\n$/, '');
+    const children = React.createElement('div', { dangerouslySetInnerHTML: { __html: html } });
     store.dispatch({
       type: 'RENDER_HTML',
       linenumber: action.linenumber,
       value,
-      html,
       className,
+      children,
     });
   }
   return next(action);

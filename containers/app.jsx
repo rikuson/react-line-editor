@@ -29,7 +29,7 @@ App.propTypes = {
     caret: PropTypes.number.isRequired,
     lines: PropTypes.arrayOf(PropTypes.shape({
       key: PropTypes.string.isRequired,
-      html: PropTypes.string,
+      children: PropTypes.element,
       value: PropTypes.string,
       text: PropTypes.string,
       active: PropTypes.bool.isRequired,
