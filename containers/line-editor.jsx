@@ -5,13 +5,17 @@ import { Shortcuts } from 'react-shortcuts';
 import Line from '../components/line';
 
 class LineEditor extends React.Component {
+  componentDidMount() {
+    this.props.initialize(this.props.autoFocus);
+  }
+
   render() {
     const lines = this.props.lineEditor.lines.map((l) => (
       <Shortcuts name="LINE_EDITOR" handler={(shortcut, e) => this.props.keybind(l.linenumber, shortcut, e)} key={l.key} alwaysFireHandler>
         <Line
           onClick={(e) => this.props.clickPreview(l.linenumber, e)}
           onFocus={(e) => this.props.focusEditor(l.linenumber, e)}
-          onBlur={(e) => this.props.blurEditor(l.linenumber, e.target.value)}
+          onBlur={(e) => this.props.blurEditor(l.linenumber, e)}
           onChange={(e) => this.props.changeEditor(l.linenumber, e)}
           onPaste={(e) => this.props.pasteClipboard(l.linenumber, e)}
           value={l.value}
@@ -40,12 +44,18 @@ LineEditor.propTypes = {
       linenumber: PropTypes.number.isRequired,
     }).isRequired).isRequired,
   }).isRequired,
+  initialize: PropTypes.func.isRequired,
   clickPreview: PropTypes.func.isRequired,
   focusEditor: PropTypes.func.isRequired,
   blurEditor: PropTypes.func.isRequired,
   changeEditor: PropTypes.func.isRequired,
   pasteClipboard: PropTypes.func.isRequired,
   keybind: PropTypes.func.isRequired,
+  autoFocus: PropTypes.bool,
+};
+
+LineEditor.defaultProps = {
+  autoFocus: false,
 };
 
 const mapStateToProps = (state) => ({
@@ -53,15 +63,20 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  initialize: (autoFocus) => {
+    if (autoFocus) {
+      dispatch({ type: 'ACTIVATE_LINE', linenumber: 0 });
+    }
+  },
   clickPreview: (linenumber) => dispatch({ type: 'ACTIVATE_LINE', linenumber }),
-  focusEditor: (linenumber, e) => dispatch({
-    type: 'BIND_POSITION',
-    linenumber,
-    caret: e.target.selectionStart,
-  }),
-  blurEditor: (linenumber, value) => dispatch({ type: 'DISACTIVATE_LINE', linenumber, value }),
+  focusEditor: (linenumber) => dispatch({ type: 'FOCUS_LINE', linenumber }),
+  blurEditor: (linenumber) => {
+    dispatch({ type: 'BLUR_LINE', linenumber });
+    dispatch({ type: 'DISACTIVATE_LINE', linenumber });
+  },
   changeEditor: (linenumber, e) => {
     const { value } = e.target;
+    // FIXME: forBackspace
     const caret = e.target.selectionStart + 1;
     dispatch({ type: 'CHANGE_VALUE', linenumber, value });
     dispatch({ type: 'BIND_POSITION', linenumber, caret });
@@ -77,10 +92,10 @@ const mapDispatchToProps = (dispatch) => ({
       let i = 0;
       dispatch({ type: 'CHANGE_VALUE', linenumber, value: beforeCaret + data[i] });
       while (++i < data.length - 1) {
-        dispatch({ type: 'ADD_LINE', linenumber: linenumber + i, value: e.target.value });
+        dispatch({ type: 'ADD_LINE', linenumber: linenumber + i });
         dispatch({ type: 'CHANGE_VALUE', linenumber: linenumber + i, value: data[i] });
       }
-      dispatch({ type: 'ADD_LINE', linenumber: linenumber + i, value: e.target.value });
+      dispatch({ type: 'ADD_LINE', linenumber: linenumber + i });
       dispatch({ type: 'CHANGE_VALUE', linenumber: linenumber + i, value: data[i] + afterCaret });
     }
   },

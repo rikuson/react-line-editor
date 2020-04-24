@@ -17,7 +17,7 @@ class App extends React.Component {
     return (
       <div>
         <Header lines={this.props.lineEditor.lines} />
-        <LineEditor />
+        <LineEditor autoFocus />
       </div>
     );
   }

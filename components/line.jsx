@@ -10,6 +10,7 @@ class Line extends React.Component {
         <Preview
           onClick={this.props.onClick}
           style={{ display: !this.props.active ? 'block' : 'none' }}
+          active={this.props.active}
         >
           {this.props.children}
         </Preview>
@@ -19,6 +20,7 @@ class Line extends React.Component {
           onBlur={this.props.onBlur}
           onPaste={this.props.onPaste}
           style={{ display: this.props.active ? 'block' : 'none' }}
+          active={this.props.active}
           value={this.props.value}
           caret={this.props.caret}
         />

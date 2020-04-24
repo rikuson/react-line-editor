@@ -3,13 +3,15 @@ import React from 'react';
 
 class Editor extends React.Component {
   componentDidMount() {
-    this.refs.input.focus();
+    if (this.props.active) {
+      this.refs.input.focus();
+    }
   }
 
   componentDidUpdate() {
     this.refs.input.selectionStart = this.props.caret;
     this.refs.input.selectionEnd = this.props.caret;
-    if (this.props.style.display) {
+    if (this.props.active) {
       this.refs.input.focus();
     }
   }
@@ -31,6 +33,7 @@ Editor.propTypes = {
   style: PropTypes.shape({
     display: PropTypes.string,
   }).isRequired,
+  active: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,

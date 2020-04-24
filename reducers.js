@@ -7,14 +7,13 @@ const initialLine = {
   value: '',
   html: '',
   linenumber: 0,
-  active: true,
+  active: false,
 };
 const line = (state = initialLine, action) => {
   switch (action.type) {
     case 'ADD_LINE':
       return {
         ...state,
-        value: action.value,
         key: shortid.generate(),
         linenumber: action.linenumber,
       };
@@ -25,6 +24,7 @@ const line = (state = initialLine, action) => {
           value: action.value,
         };
       }
+      return state;
     case 'APPEND_VALUE':
       if (state.linenumber === action.linenumber) {
         return {
@@ -32,6 +32,7 @@ const line = (state = initialLine, action) => {
           value: state.value + action.value,
         };
       }
+      return state;
     case 'PREPEND_VALUE':
       if (state.linenumber === action.linenumber) {
         return {
@@ -39,6 +40,7 @@ const line = (state = initialLine, action) => {
           value: action.value + state.value,
         };
       }
+      return state;
     case 'ACTIVATE_LINE':
       if (state.linenumber === action.linenumber) {
         return {
@@ -46,6 +48,10 @@ const line = (state = initialLine, action) => {
           active: true,
         };
       }
+      return {
+        ...state,
+        active: false,
+      };
     case 'DISACTIVATE_LINE':
       if (state.linenumber === action.linenumber) {
         return {
@@ -53,6 +59,7 @@ const line = (state = initialLine, action) => {
           active: false,
         };
       }
+      return state;
     case 'INTERPRET_VALUE':
       if (state.linenumber === action.linenumber) {
         const { plain, html } = action;
@@ -62,6 +69,7 @@ const line = (state = initialLine, action) => {
           html,
         };
       }
+      return state;
     default:
       return state;
   }
@@ -102,6 +110,11 @@ const lineEditor = (state = initialLineEditor, action) => {
         caret: action.caret,
       };
     case 'ACTIVATE_LINE':
+      return {
+        ...state,
+        linenumber: action.linenumber,
+        lines: state.lines.map((l) => line(l, action)),
+      };
     case 'CHANGE_VALUE':
     case 'APPEND_VALUE':
     case 'PREPEND_VALUE':
