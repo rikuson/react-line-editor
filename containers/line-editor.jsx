@@ -2,22 +2,38 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Shortcuts } from 'react-shortcuts';
+import store from '../store';
 import Line from '../components/line';
 
 class LineEditor extends React.Component {
   componentDidMount() {
-    this.props.initialize(this.props.autoFocus);
+    this.props.initLine(this.props.autoFocus);
   }
 
   render() {
     const lines = this.props.lineEditor.lines.map((l) => (
       <Shortcuts name="LINE_EDITOR" handler={(shortcut, e) => this.props.keybind(l.linenumber, shortcut, e)} key={l.key} alwaysFireHandler>
         <Line
-          onClick={(e) => this.props.clickPreview(l.linenumber, e)}
-          onFocus={(e) => this.props.focusEditor(l.linenumber, e)}
-          onBlur={(e) => this.props.blurEditor(l.linenumber, e)}
-          onChange={(e) => this.props.changeEditor(l.linenumber, e)}
-          onPaste={(e) => this.props.pasteClipboard(l.linenumber, e)}
+          onClick={(e) => {
+            this.props.clickLine(l.linenumber, e);
+            this.props.onClick(e, l);
+          }}
+          onFocus={(e) => {
+            this.props.focusLine(l.linenumber, e);
+            this.props.onFocus(e, l);
+          }}
+          onBlur={(e) => {
+            this.props.blurLine(l.linenumber, e);
+            this.props.onBlur(e, l);
+          }}
+          onChange={(e) => {
+            this.props.changeValue(l.linenumber, e);
+            this.props.onChange(e, l);
+          }}
+          onPaste={(e) => {
+            this.props.pasteClipboard(l.linenumber, e);
+            this.props.onPaste(e, l);
+          }}
           value={l.value}
           active={l.active}
           caret={this.props.lineEditor.caret}
@@ -44,11 +60,16 @@ LineEditor.propTypes = {
       linenumber: PropTypes.number.isRequired,
     }).isRequired).isRequired,
   }).isRequired,
-  initialize: PropTypes.func.isRequired,
-  clickPreview: PropTypes.func.isRequired,
-  focusEditor: PropTypes.func.isRequired,
-  blurEditor: PropTypes.func.isRequired,
-  changeEditor: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onPaste: PropTypes.func,
+  initLine: PropTypes.func.isRequired,
+  clickLine: PropTypes.func.isRequired,
+  focusLine: PropTypes.func.isRequired,
+  blurLine: PropTypes.func.isRequired,
+  changeValue: PropTypes.func.isRequired,
   pasteClipboard: PropTypes.func.isRequired,
   keybind: PropTypes.func.isRequired,
   autoFocus: PropTypes.bool,
@@ -56,6 +77,20 @@ LineEditor.propTypes = {
 
 LineEditor.defaultProps = {
   autoFocus: false,
+  onClick: (e, line) => {
+    store.dispatch({ type: 'ACTIVATE_LINE', linenumber: line.linenumber });
+  },
+  onFocus: () => null,
+  onBlur: (e, line) => {
+    if (line.active) {
+      store.dispatch({ type: 'DISACTIVATE_LINE', linenumber: line.linenumber });
+    }
+  },
+  onChange: (e, line) => {
+    const caret = e.target.selectionStart;
+    store.dispatch({ type: 'BIND_POSITION', linenumber: line.linenumber, caret });
+  },
+  onPaste: () => null,
 };
 
 const mapStateToProps = (state) => ({
@@ -63,23 +98,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  initialize: (autoFocus) => {
-    if (autoFocus) {
-      dispatch({ type: 'ACTIVATE_LINE', linenumber: 0 });
-    }
-  },
-  clickPreview: (linenumber) => dispatch({ type: 'ACTIVATE_LINE', linenumber }),
-  focusEditor: (linenumber) => dispatch({ type: 'FOCUS_LINE', linenumber }),
-  blurEditor: (linenumber) => {
-    dispatch({ type: 'BLUR_LINE', linenumber });
-    dispatch({ type: 'DISACTIVATE_LINE', linenumber });
-  },
-  changeEditor: (linenumber, e) => {
+  initLine: (autoFocus) => dispatch({ type: 'INIT_LINE', linenumber: 0, active: autoFocus }),
+  clickLine: (linenumber) => dispatch({ type: 'CLICK_LINE', linenumber }),
+  focusLine: (linenumber) => dispatch({ type: 'FOCUS_LINE', linenumber }),
+  blurLine: (linenumber) => dispatch({ type: 'BLUR_LINE', linenumber }),
+  changeValue: (linenumber, e) => {
     const { value } = e.target;
-    // FIXME: forBackspace
-    const caret = e.target.selectionStart + 1;
     dispatch({ type: 'CHANGE_VALUE', linenumber, value });
-    dispatch({ type: 'BIND_POSITION', linenumber, caret });
   },
   pasteClipboard: (linenumber, e) => {
     e.preventDefault();

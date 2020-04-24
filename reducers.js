@@ -11,6 +11,14 @@ const initialLine = {
 };
 const line = (state = initialLine, action) => {
   switch (action.type) {
+    case 'INIT_LINE':
+      if (state.linenumber === action.linenumber) {
+        return {
+          ...state,
+          active: action.active,
+        };
+      }
+      return state;
     case 'ADD_LINE':
       return {
         ...state,
@@ -82,6 +90,11 @@ const initialLineEditor = {
 };
 const lineEditor = (state = initialLineEditor, action) => {
   switch (action.type) {
+    case 'INIT_LINE':
+      return {
+        ...state,
+        lines: state.lines.map((l) => line(l, action)),
+      };
     case 'ADD_LINE':
       return {
         ...state,

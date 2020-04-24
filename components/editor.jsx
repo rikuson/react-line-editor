@@ -13,6 +13,8 @@ class Editor extends React.Component {
     this.refs.input.selectionEnd = this.props.caret;
     if (this.props.active) {
       this.refs.input.focus();
+    } else {
+      this.refs.input.blur();
     }
   }
 
