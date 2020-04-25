@@ -4,14 +4,32 @@ import Preview from './preview';
 import Editor from './editor';
 
 class Line extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      style: {
+        fontFamily: 'inherit',
+        fontSize: '1rem',
+        lineHeight: '1.5rem',
+        minHeight: '1.5rem',
+        padding: '.25rem',
+        width: 'calc(100% - .5rem)',
+        margin: '0 auto',
+        cursor: 'text',
+        border: 'none',
+        borderRadius: 0,
+        outline: 0,
+      },
+    };
+  }
+
   render() {
     return (
-      <div className="line">
+      <div className={this.props.className}>
         <Preview
           onClick={this.props.onClick}
-          style={{ display: !this.props.active ? 'block' : 'none' }}
-          className={this.props.className}
-          active={this.props.active}
+          style={{ ...this.state.style, ...this.props.style }}
+          show={!this.props.active}
         >
           {this.props.children}
         </Preview>
@@ -20,8 +38,8 @@ class Line extends React.Component {
           onFocus={this.props.onFocus}
           onBlur={this.props.onBlur}
           onPaste={this.props.onPaste}
-          style={{ display: this.props.active ? 'block' : 'none' }}
-          active={this.props.active}
+          style={{ ...this.state.style, ...this.props.style }}
+          show={this.props.active}
           value={this.props.value}
           caret={this.props.caret}
         />
@@ -41,6 +59,11 @@ Line.propTypes = {
   onFocus: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   onPaste: PropTypes.func.isRequired,
+  style: PropTypes.object,
+};
+
+Line.defaultProps = {
+  style: {},
 };
 
 module.exports = Line;

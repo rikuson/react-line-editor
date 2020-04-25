@@ -6,6 +6,17 @@ import store from '../store';
 import Line from '../components/line';
 
 class LineEditor extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      style: {
+        background: '#FFF',
+        padding: 7,
+        margin: 7,
+      },
+    };
+  }
+
   componentDidMount() {
     this.props.initLine(this.props.autoFocus);
   }
@@ -43,7 +54,7 @@ class LineEditor extends React.Component {
         </Line>
       </Shortcuts>
     ));
-    return <div id="text_field">{lines}</div>;
+    return <div style={{ ...this.state.style, ...this.props.style }}>{lines}</div>;
   }
 }
 
@@ -75,10 +86,12 @@ LineEditor.propTypes = {
   pasteClipboard: PropTypes.func.isRequired,
   keybind: PropTypes.func.isRequired,
   autoFocus: PropTypes.bool,
+  style: PropTypes.object,
 };
 
 LineEditor.defaultProps = {
   autoFocus: false,
+  style: {},
   onClick: (e, line) => {
     store.dispatch({ type: 'ACTIVATE_LINE', linenumber: line.linenumber });
   },
