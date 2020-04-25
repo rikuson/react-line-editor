@@ -1,15 +1,22 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
   mode: 'production',
-  entry: './index.jsx',
+  entry: {
+    'react-line-editor': './src/index.js',
+    'react-line-editor.min': './src/index.js',
+  },
   output: {
-    path: path.join(__dirname, '/docs'),
-    filename: 'bundle.js',
+    path: path.join(__dirname, '/dist/'),
+    filename: '[name].js',
+    library: 'ReactLineEditor',
+    libraryTarget: 'umd',
   },
   resolve: {
     extensions: ['*', '.js', '.jsx'],
+    modules: [path.join(__dirname, 'src'), 'node_modules'],
   },
   module: {
     rules: [
@@ -36,6 +43,14 @@ const config = {
       },
     }),
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new UglifyJsPlugin({
+        include: /\.min\.js$/,
+      }),
+    ],
+  },
 };
 
 module.exports = config;

@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Shortcuts } from 'react-shortcuts';
-import store from '../store';
+import { ShortcutManager, Shortcuts } from 'react-shortcuts';
 import Line from '../components/line';
+import keymap from '../keymap';
 
-class LineEditor extends React.Component {
+const shortcutManager = new ShortcutManager({ LINE_EDITOR: keymap });
+
+class TextField extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -15,6 +17,10 @@ class LineEditor extends React.Component {
         margin: 7,
       },
     };
+  }
+
+  getChildContext() {
+    return { shortcuts: shortcutManager };
   }
 
   componentDidMount() {
@@ -58,7 +64,7 @@ class LineEditor extends React.Component {
   }
 }
 
-LineEditor.propTypes = {
+TextField.propTypes = {
   lineEditor: PropTypes.shape({
     linenumber: PropTypes.number.isRequired,
     caret: PropTypes.number.isRequired,
@@ -73,11 +79,11 @@ LineEditor.propTypes = {
       linenumber: PropTypes.number.isRequired,
     }).isRequired).isRequired,
   }).isRequired,
-  onClick: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  onPaste: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onPaste: PropTypes.func.isRequired,
   initLine: PropTypes.func.isRequired,
   clickLine: PropTypes.func.isRequired,
   focusLine: PropTypes.func.isRequired,
@@ -85,27 +91,12 @@ LineEditor.propTypes = {
   changeValue: PropTypes.func.isRequired,
   pasteClipboard: PropTypes.func.isRequired,
   keybind: PropTypes.func.isRequired,
-  autoFocus: PropTypes.bool,
-  style: PropTypes.object,
+  autoFocus: PropTypes.bool.isRequired,
+  style: PropTypes.object.isRequired,
 };
 
-LineEditor.defaultProps = {
-  autoFocus: false,
-  style: {},
-  onClick: (e, line) => {
-    store.dispatch({ type: 'ACTIVATE_LINE', linenumber: line.linenumber });
-  },
-  onFocus: () => null,
-  onBlur: (e, line) => {
-    if (line.active) {
-      store.dispatch({ type: 'DISACTIVATE_LINE', linenumber: line.linenumber });
-    }
-  },
-  onChange: (e, line) => {
-    const caret = e.target.selectionStart;
-    store.dispatch({ type: 'BIND_POSITION', linenumber: line.linenumber, caret });
-  },
-  onPaste: () => null,
+TextField.childContextTypes = {
+  shortcuts: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -156,4 +147,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LineEditor);
+)(TextField);

@@ -7,21 +7,22 @@ class Editor extends React.Component {
     this.state = {
       style: {},
     };
+    this.input = React.createRef();
   }
 
   componentDidMount() {
     if (this.props.show) {
-      this.refs.input.focus();
+      this.input.current.focus();
     }
   }
 
   componentDidUpdate() {
-    this.refs.input.selectionStart = this.props.caret;
-    this.refs.input.selectionEnd = this.props.caret;
+    this.input.current.selectionStart = this.props.caret;
+    this.input.current.selectionEnd = this.props.caret;
     if (this.props.show) {
-      this.refs.input.focus();
+      this.input.current.focus();
     } else {
-      this.refs.input.blur();
+      this.input.current.blur();
     }
   }
 
@@ -38,7 +39,7 @@ class Editor extends React.Component {
           display: this.props.show ? 'block' : 'none',
         }}
         value={this.props.value}
-        ref="input"
+        ref={this.input}
       />
     );
   }

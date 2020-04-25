@@ -1,13 +1,10 @@
 {
-  "name": "lmde",
-  "version": "1.0.0",
-  "description": "Linear Markdown Editor",
-  "main": "index.js",
-  "repository": "git@github.com:rikuson/vmde.git",
+  "name": "react-line-editor",
+  "version": "0.1.0",
+  "description": "React text editor interface combined with preview.",
+  "main": "./dist/react-line-editor.min.js",
+  "repository": "git@github.com:rikuson/react-line-editor.git",
   "dependencies": {
-    "@material-ui/core": "^4.9.9",
-    "@material-ui/icons": "^4.9.1",
-    "@material-ui/styles": "^4.9.6",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -30,15 +27,28 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
-    "v": "^0.3.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^3.1.1"
   },
   "scripts": {
     "start": "webpack-dev-server --config=webpack.config.dev.js",
-    "build": "./node_modules/.bin/webpack --display-error-details --optimize-minimize"
+    "build": "webpack --display-error-details"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "keywords": [
+    "line",
+    "editor",
+    "react",
+    "redux",
+    "keybind",
+    "keymap",
+    "interpreter"
+  ],
   "author": "Rikson",
-  "license": "ISC"
+  "license": "MIT"
 }

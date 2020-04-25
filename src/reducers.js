@@ -84,12 +84,12 @@ const line = (state = initialLine, action) => {
   }
 };
 
-const initialLineEditor = {
+const initialTextField = {
   linenumber: 0,
   caret: 0,
   lines: [initialLine],
 };
-const lineEditor = (state = initialLineEditor, action) => {
+const lineEditor = (state = initialTextField, action) => {
   switch (action.type) {
     case 'INIT_LINE':
       return {

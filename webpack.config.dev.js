@@ -3,9 +3,9 @@ const webpack = require('webpack');
 
 const config = {
   mode: 'development',
-  entry: './index.jsx',
+  entry: './demo/demo.jsx',
   output: {
-    path: path.join(__dirname, '/docs'),
+    path: path.join(__dirname, '/demo/'),
     filename: 'bundle.js',
   },
   resolve: {
@@ -13,7 +13,7 @@ const config = {
   },
   devServer: {
     port: 8080,
-    contentBase: path.join(__dirname, '/docs'),
+    contentBase: path.join(__dirname, '/demo/'),
   },
   module: {
     rules: [
