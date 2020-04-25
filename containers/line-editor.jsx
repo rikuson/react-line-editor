@@ -48,7 +48,7 @@ class LineEditor extends React.Component {
           value={l.value}
           active={l.active}
           caret={this.props.lineEditor.caret}
-          className={l.className}
+          className={l.className || ''}
         >
           {l.children || <div />}
         </Line>
