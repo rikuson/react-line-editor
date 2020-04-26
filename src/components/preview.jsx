@@ -29,7 +29,10 @@ class Preview extends React.Component {
 }
 
 Preview.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string,
+  ]).isRequired,
   onClick: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
   show: PropTypes.bool.isRequired,

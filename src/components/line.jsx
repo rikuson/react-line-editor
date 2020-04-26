@@ -49,7 +49,10 @@ class Line extends React.Component {
 }
 
 Line.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string,
+  ]).isRequired,
   value: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   caret: PropTypes.number.isRequired,

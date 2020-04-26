@@ -3,17 +3,15 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import store from '../store';
 import TextField from './textfield';
+import interpreter from '../interpreter';
+import keybinder from '../keybinder';
+import eventhandler from '../eventhandler';
 
 class LineEditor extends React.Component {
   render() {
     return (
       <Provider store={store}>
         <TextField
-          onClick={this.props.onClick}
-          onFocus={this.props.onFocus}
-          onBlur={this.props.onBlur}
-          onChange={this.props.onChange}
-          onPaste={this.props.onPaste}
           style={this.props.style}
           autoFocus={this.props.autoFocus}
         />
@@ -23,32 +21,19 @@ class LineEditor extends React.Component {
 }
 
 LineEditor.propTypes = {
-  onClick: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  onPaste: PropTypes.func,
   style: PropTypes.object,
   autoFocus: PropTypes.bool,
+  interpreter: PropTypes.func,
+  keybinder: PropTypes.func,
+  eventhandler: PropTypes.func,
 };
 
 LineEditor.defaultProps = {
-  onClick: (e, line) => {
-    store.dispatch({ type: 'ACTIVATE_LINE', linenumber: line.linenumber });
-  },
-  onFocus: () => null,
-  onBlur: (e, line) => {
-    if (line.active) {
-      store.dispatch({ type: 'DISACTIVATE_LINE', linenumber: line.linenumber });
-    }
-  },
-  onChange: (e, line) => {
-    const caret = e.target.selectionStart;
-    store.dispatch({ type: 'BIND_POSITION', linenumber: line.linenumber, caret });
-  },
-  onPaste: () => null,
   style: {},
   autoFocus: false,
+  interpreter,
+  keybinder,
+  eventhandler,
 };
 
 export default LineEditor;

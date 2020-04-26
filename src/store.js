@@ -3,6 +3,7 @@ import { createLogger } from 'redux-logger';
 import reducer from './reducers';
 import interpreter from './interpreter';
 import keybinder from './keybinder';
+import eventhandler from './eventhandler';
 
 const middlewares = [];
 if (process.env.NODE_ENV === 'development') {
@@ -11,6 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 middlewares.push(interpreter);
 middlewares.push(keybinder);
+middlewares.push(eventhandler);
 
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const store = createStoreWithMiddleware(reducer);

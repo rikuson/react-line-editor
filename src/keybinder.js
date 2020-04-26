@@ -1,5 +1,5 @@
 export default (store) => (next) => (action) => {
-  if (action.type === 'INPUT_SHORTCUT') {
+  if (action.type === 'ON_INPUT_SHORTCUT') {
     const { dispatch } = store;
     const state = store.getState();
     const {
@@ -13,9 +13,9 @@ export default (store) => (next) => (action) => {
     // TODO: Yank
     switch (shortcut) {
       case 'ADD_LINE':
-        dispatch({ type: 'CHANGE_VALUE', linenumber, value: beforeCaret });
+        dispatch({ type: 'SET_VALUE', linenumber, value: beforeCaret });
         dispatch({ type: 'ADD_LINE', linenumber: linenumber + 1 });
-        dispatch({ type: 'CHANGE_VALUE', linenumber: linenumber + 1, value: afterCaret });
+        dispatch({ type: 'SET_VALUE', linenumber: linenumber + 1, value: afterCaret });
         dispatch({ type: 'ACTIVATE_LINE', linenumber: linenumber + 1 });
         dispatch({ type: 'BIND_POSITION', linenumber: linenumber + 1, caret: 0 });
         break;
@@ -47,7 +47,7 @@ export default (store) => (next) => (action) => {
           dispatch({ type: 'ACTIVATE_LINE', linenumber: linenumber - 1 });
           dispatch({ type: 'BIND_POSITION', linenumber: linenumber - 1, caret: lines[linenumber - 1].value.length });
         } else {
-          dispatch({ type: 'CHANGE_VALUE', linenumber, value: value.slice(0, value.length - 1) });
+          dispatch({ type: 'ON_INPUT_VALUE', linenumber, value: value.slice(0, value.length - 1) });
           dispatch({ type: 'BIND_POSITION', linenumber, caret: caret - 1 });
         }
         break;

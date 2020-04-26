@@ -4,7 +4,6 @@ import shortid from 'shortid';
 const initialLine = {
   key: shortid.generate(),
   value: '',
-  html: '',
   className: '',
   linenumber: 0,
   active: false,
@@ -25,7 +24,7 @@ const line = (state = initialLine, action) => {
         key: shortid.generate(),
         linenumber: action.linenumber,
       };
-    case 'CHANGE_VALUE':
+    case 'SET_VALUE':
       if (state.linenumber === action.linenumber) {
         return {
           ...state,
@@ -70,10 +69,9 @@ const line = (state = initialLine, action) => {
       return state;
     case 'RENDER_HTML':
       if (state.linenumber === action.linenumber) {
-        const { html, className, children } = action;
+        const { className, children } = action;
         return {
           ...state,
-          html,
           className,
           children,
         };
@@ -129,7 +127,7 @@ const lineEditor = (state = initialTextField, action) => {
         linenumber: action.linenumber,
         lines: state.lines.map((l) => line(l, action)),
       };
-    case 'CHANGE_VALUE':
+    case 'SET_VALUE':
     case 'APPEND_VALUE':
     case 'PREPEND_VALUE':
     case 'DISACTIVATE_LINE':
