@@ -1,6 +1,6 @@
 {
   "name": "react-line-editor",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Expandable react text editor interface combined with preview.",
   "main": "./dist/react-line-editor.min.js",
   "repository": "git@github.com:rikuson/react-line-editor.git",
