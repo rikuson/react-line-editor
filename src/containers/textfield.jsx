@@ -33,7 +33,6 @@ class TextField extends React.Component {
   }
 
   render() {
-    this.props.lineEditor.lines.forEach(window.console.log);
     const lines = this.props.lineEditor.lines.map((l) => (
       <Shortcuts name="LINE_EDITOR" handler={(shortcut, e) => this.props.keybind(l.linenumber, shortcut, e)} key={l.key} alwaysFireHandler>
         <Line

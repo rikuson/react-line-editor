@@ -47,7 +47,7 @@ export default (store) => (next) => (action) => {
           dispatch({ type: 'ACTIVATE_LINE', linenumber: linenumber - 1 });
           dispatch({ type: 'BIND_POSITION', linenumber: linenumber - 1, caret: lines[linenumber - 1].value.length });
         } else {
-          dispatch({ type: 'ON_INPUT_VALUE', linenumber, value: value.slice(0, value.length - 1) });
+          dispatch({ type: 'SET_VALUE', linenumber, value: value.slice(0, value.length - 1) });
           dispatch({ type: 'BIND_POSITION', linenumber, caret: caret - 1 });
         }
         break;
