@@ -37,6 +37,7 @@ class Editor extends React.Component {
           ...this.state.style,
           ...this.props.style,
           display: this.props.show ? 'block' : 'none',
+          color: '#111',
         }}
         value={this.props.value}
         placeholder={this.props.placeholder}

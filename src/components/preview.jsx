@@ -20,9 +20,10 @@ class Preview extends React.Component {
           ...this.state.style,
           ...this.props.style,
           display: this.props.show ? 'block' : 'none',
+          color: this.props.children ? '#111' : '#8E8E8E',
         }}
       >
-        {this.props.children}
+        {this.props.children || this.props.placeholder}
       </div>
     );
   }
@@ -33,9 +34,14 @@ Preview.propTypes = {
     PropTypes.element,
     PropTypes.string,
   ]).isRequired,
+  placeholder: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
   show: PropTypes.bool.isRequired,
+};
+
+Preview.defaultProps = {
+  placeholder: '',
 };
 
 module.exports = Preview;

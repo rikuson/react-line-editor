@@ -7,7 +7,7 @@ export default (store) => (next) => (action) => {
       if (autoFocus) {
         dispatch({ type: 'ACTIVATE_LINE', linenumber });
       }
-      {
+      if (children === '') {
         const data = placeholder.split('\n');
         let i = 0;
         dispatch({ type: 'SET_PLACEHOLDER', linenumber, placeholder: data[i] });

@@ -30,6 +30,7 @@ class Line extends React.Component {
           onClick={this.props.onClick}
           style={{ ...this.state.style, ...this.props.style }}
           show={!this.props.active}
+          placeholder={this.props.placeholder}
         >
           {this.props.children}
         </Preview>
