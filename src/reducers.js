@@ -4,20 +4,14 @@ import shortid from 'shortid';
 const initialLine = {
   key: shortid.generate(),
   value: '',
+  placeholder: '',
+  children: '',
   className: '',
   linenumber: 0,
   active: false,
 };
 const line = (state = initialLine, action) => {
   switch (action.type) {
-    case 'INIT_LINE':
-      if (state.linenumber === action.linenumber) {
-        return {
-          ...state,
-          active: action.active,
-        };
-      }
-      return state;
     case 'ADD_LINE':
       return {
         ...state,
@@ -29,6 +23,14 @@ const line = (state = initialLine, action) => {
         return {
           ...state,
           value: action.value,
+        };
+      }
+      return state;
+    case 'SET_PLACEHOLDER':
+      if (state.linenumber === action.linenumber) {
+        return {
+          ...state,
+          placeholder: action.placeholder,
         };
       }
       return state;
@@ -89,11 +91,6 @@ const initialTextField = {
 };
 const lineEditor = (state = initialTextField, action) => {
   switch (action.type) {
-    case 'INIT_LINE':
-      return {
-        ...state,
-        lines: state.lines.map((l) => line(l, action)),
-      };
     case 'ADD_LINE':
       return {
         ...state,
@@ -128,6 +125,7 @@ const lineEditor = (state = initialTextField, action) => {
         lines: state.lines.map((l) => line(l, action)),
       };
     case 'SET_VALUE':
+    case 'SET_PLACEHOLDER':
     case 'APPEND_VALUE':
     case 'PREPEND_VALUE':
     case 'DISACTIVATE_LINE':

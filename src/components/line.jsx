@@ -42,6 +42,7 @@ class Line extends React.Component {
           show={this.props.active}
           value={this.props.value}
           caret={this.props.caret}
+          placeholder={this.props.placeholder}
         />
       </div>
     );
@@ -52,7 +53,7 @@ Line.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.string,
-  ]).isRequired,
+  ]),
   value: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   caret: PropTypes.number.isRequired,
@@ -63,10 +64,13 @@ Line.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onPaste: PropTypes.func.isRequired,
   style: PropTypes.object,
+  placeholder: PropTypes.string,
 };
 
 Line.defaultProps = {
+  children: '',
   style: {},
+  placeholder: '',
 };
 
 module.exports = Line;

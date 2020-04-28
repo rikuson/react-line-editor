@@ -24,10 +24,16 @@ class TextField extends React.Component {
   }
 
   componentDidMount() {
-    this.props.initLine(this.props.autoFocus);
+    const { autoFocus, placeholder, children } = this.props;
+    this.props.initLine({
+      autoFocus,
+      placeholder,
+      children,
+    });
   }
 
   render() {
+    this.props.lineEditor.lines.forEach(window.console.log);
     const lines = this.props.lineEditor.lines.map((l) => (
       <Shortcuts name="LINE_EDITOR" handler={(shortcut, e) => this.props.keybind(l.linenumber, shortcut, e)} key={l.key} alwaysFireHandler>
         <Line
@@ -40,6 +46,7 @@ class TextField extends React.Component {
           active={l.active}
           caret={this.props.lineEditor.caret}
           className={l.className || ''}
+          placeholder={l.placeholder}
         >
           {l.children || ''}
         </Line>
@@ -75,6 +82,8 @@ TextField.propTypes = {
   pasteClipboard: PropTypes.func.isRequired,
   keybind: PropTypes.func.isRequired,
   autoFocus: PropTypes.bool.isRequired,
+  children: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
   style: PropTypes.object.isRequired,
 };
 
@@ -87,7 +96,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  initLine: (autoFocus) => dispatch({ type: 'INIT_LINE', linenumber: 0, active: autoFocus }),
+  initLine: (props) => dispatch({ type: 'ON_LOAD_TEXTFIELD', linenumber: 0, props }),
   clickLine: (linenumber, event) => dispatch({ type: 'ON_CLICK_LINE', linenumber, event }),
   focusLine: (linenumber, event) => dispatch({ type: 'ON_FOCUS_LINE', linenumber, event }),
   blurLine: (linenumber, event) => dispatch({ type: 'ON_BLUR_LINE', linenumber, event }),

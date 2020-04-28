@@ -36,7 +36,10 @@ class LineEditor extends React.Component {
         <TextField
           style={this.props.style}
           autoFocus={this.props.autoFocus}
-        />
+          placeholder={this.props.placeholder}
+        >
+          {this.props.children}
+        </TextField>
       </Provider>
     );
   }
@@ -45,6 +48,8 @@ class LineEditor extends React.Component {
 LineEditor.propTypes = {
   style: PropTypes.object,
   autoFocus: PropTypes.bool,
+  children: PropTypes.string,
+  placeholder: PropTypes.string,
   interpreter: PropTypes.func,
   keybinder: PropTypes.func,
   eventhandler: PropTypes.func,
@@ -53,6 +58,8 @@ LineEditor.propTypes = {
 LineEditor.defaultProps = {
   style: {},
   autoFocus: false,
+  children: '',
+  placeholder: '',
   interpreter,
   keybinder,
   eventhandler,

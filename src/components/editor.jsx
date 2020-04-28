@@ -39,6 +39,7 @@ class Editor extends React.Component {
           display: this.props.show ? 'block' : 'none',
         }}
         value={this.props.value}
+        placeholder={this.props.placeholder}
         ref={this.input}
       />
     );
@@ -49,6 +50,7 @@ Editor.propTypes = {
   style: PropTypes.shape({
     display: PropTypes.string,
   }).isRequired,
+  placeholder: PropTypes.string,
   show: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,
@@ -56,6 +58,10 @@ Editor.propTypes = {
   onPaste: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   caret: PropTypes.number.isRequired,
+};
+
+Editor.defaultProps = {
+  placeholder: '',
 };
 
 module.exports = Editor;
