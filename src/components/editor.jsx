@@ -65,4 +65,4 @@ Editor.defaultProps = {
   placeholder: '',
 };
 
-module.exports = Editor;
+export default Editor;

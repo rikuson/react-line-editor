@@ -44,4 +44,4 @@ Preview.defaultProps = {
   placeholder: '',
 };
 
-module.exports = Preview;
+export default Preview;

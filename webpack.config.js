@@ -30,8 +30,8 @@ const config = {
         test: /\.jsx$|\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
-          presets: ['react', 'env', 'stage-2'],
+        options: {
+          presets: ['@babel/preset-react', '@babel/preset-env'],
         },
       },
     ],

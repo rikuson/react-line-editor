@@ -1,0 +1,54 @@
+import { action } from "@storybook/addon-actions";
+import { Story, Meta, Preview, Props, Source, Description } from "@storybook/addon-docs/blocks";
+import { LineEditor } from '../src/index';
+import markdown from './markdown-interpreter';
+
+<Meta title="LineEditor" parameters={{ component: LineEditor }} />
+
+# Line Editor
+
+## Default
+
+<Preview withSource="open">
+  <Story name="Default" >
+    <LineEditor />
+  </Story>
+</Preview>
+
+<Props of="." />
+
+## Markdown Interpreter
+
+<Preview withSource="open">
+  <Story name="Markdown Interpreter">
+    <LineEditor interpreter={markdown} />
+  </Story>
+</Preview>
+
+<Source code={'const markdown = ' + markdown.toString()} />
+
+<!--
+## LaTeX Interpreter
+
+<Preview withSource="open">
+  <Story name="LaTeX Interpreter">
+    <LineEditor interpreter={markdown} />
+  </Story>
+</Preview>
+
+## Vim Keybinder
+
+<Preview withSource="open">
+  <Story name="Vim Keybinder">
+    <LineEditor />
+  </Story>
+</Preview>
+
+## Emacs Keybinder
+
+<Preview withSource="open">
+  <Story name="Emacs Keybinder">
+    <LineEditor />
+  </Story>
+</Preview>
+-->

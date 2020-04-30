@@ -74,4 +74,4 @@ Line.defaultProps = {
   placeholder: '',
 };
 
-module.exports = Line;
+export default Line;
